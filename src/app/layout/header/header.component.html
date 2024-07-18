@@ -1,0 +1,146 @@
+<!-- Spinner Start-->
+<!--<div id="spinner"-->
+<!--     class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">-->
+<!--  <div class="spinner-grow text-primary" role="status"></div>-->
+<!--</div>-->
+<!-- Spinner End-->
+<!-- Navbar start-->
+
+<div class="container-fluid fixed-top">
+  <div class="container topbar bg-primary d-none d-lg-block">
+    <div class="d-flex justify-content-between">
+      <div class="top-info ps-2">
+        <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">123
+          Street, New York</a></small>
+        <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="#" class="text-white">Email@Example.com</a></small>
+      </div>
+      <div class="top-link pe-2">
+        <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
+        <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
+        <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
+      </div>
+    </div>
+  </div>
+  <div class="container px-0">
+    <nav class="navbar navbar-light bg-white navbar-expand-xl">
+      <a  class="navbar-brand"
+          routerLink="home"
+      ><h1 class="text-primary display-6">PhuNguyen</h1></a>
+      <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarCollapse">
+        <span class="fa fa-bars text-primary"></span>
+      </button>
+      <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+        <div class="navbar-nav mx-auto">
+          <a class="nav-item nav-link active text-dark"
+             style="font-size: 22px; font-weight: bold"
+             routerLink="home"
+          >Trang Chủ</a>
+          <a
+            routerLink="shop"
+            class="nav-item nav-link text-dark "
+            style="font-size: 22px">San pham</a>
+          <a
+            routerLink="contact"
+            class="nav-item nav-link text-dark " style="font-size: 22px">Lien He Bán Hàng</a>
+        </div>
+        <!-- Navbar -->
+        <ul  class="navbar-nav d-flex flex-row me-1">
+          <li class="nav-item me-3 me-lg-0">
+            <div class="dropdown">
+              <a data-mdb-dropdown-init class="me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink"
+                 role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-bell text-primary fa-2x"></i>
+                <span class="position-absolute bg-secondary
+                        rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+                      id="notification"
+                      style="top: -5px; left: 15px; height: 20px; min-width: 20px;">2323</span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                <div>
+                  <a class="dropdown-item">
+                    <h6 class="fw-normal mb-0 text-truncate" style="max-width: 300px">dasdasd</h6>
+                    <small>15 minutes ago</small>
+                  </a>
+                  <hr class="dropdown-divider">
+                </div>
+                <a href="#" class="dropdown-item text-center">See all notifications</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <!-- Navbar -->
+        <div class="d-flex m-3 me-0">
+          <a
+            class="position-relative me-4 my-auto"
+            title="Giỏ hàng"
+          >
+            <i class="fa fa-shopping-cart fa-2x"></i>
+            <span class="position-absolute bg-secondary
+                        rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
+                  id="basket"
+                  style="top: -5px; left: 15px; height: 20px; min-width: 20px;"></span>
+            <script>
+              let cookieValue = "0";
+              let name = 'basket' + "=";
+              let decodedCookie = decodeURIComponent(document.cookie);
+              let ca = decodedCookie.split(';');
+              for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                  c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                  cookieValue = c.substring(name.length, c.length);
+                  break;
+                }
+              }
+              document.getElementById("basket").innerHTML = cookieValue;
+            </script>
+          </a>
+          <a
+            routerLink="/login"
+            class="position-relative me-4 my-auto"
+            title="Đăng nhập"
+            style="color: black;font-weight: bold"
+          >Đăng nhập</a>
+          <a
+            class="position-relative me-4 my-auto"
+            title="Đăng ký"
+            style="color: black; font-weight: bold"
+            routerLink="/register"
+          >Đăng ký</a>
+          <div  class="nav-item dropdown">
+            <a href="#" style="color: #000; font-size: 18px"
+               class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+            >
+              <span id="authen_username"  style="font-size: 22px"></span>
+            </a>
+            <div class="dropdown-menu m-0 bg-secondary rounded-0">
+              <a  style="color: #000; font-size: 18px" class="dropdown-item">Thông
+                tin cá nhân</a>
+              <a  style="color: #000; font-size: 18px" class="dropdown-item">Sản
+                phẩm đặt hàng</a>
+              <div >
+                <a style="color: #000; font-size: 18px"
+                   class="dropdown-item">
+                  Quản trị
+                </a>
+              </div>
+              <div >
+                <a  style="color: #000; font-size: 18px"
+                    class="dropdown-item">
+                  Quản trị
+                </a>
+              </div>
+              <a  style="color: #000; font-size: 18px"
+                  class="dropdown-item">Đổi mật khẩu</a>
+              <a  style="color: #000; font-size: 18px" class="dropdown-item">Đăng
+                xuất</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>

@@ -1,0 +1,252 @@
+<head>
+  <title></title>
+</head>
+<body >
+<!-- Single Product Start -->
+<div class="container-fluid mt-5" style="padding-top: 52px;">
+  <div class="container py-5">
+    <div class="row g-4 mb-5">
+      <div class="col-lg-8 col-xl-9">
+        <div class="row g-4">
+          <div class="col-lg-6">
+            <a href="#">
+              <img
+                   src="https://as2.ftcdn.net/v2/jpg/00/73/00/39/1000_F_73003953_DVFZYwH4iXxOlsNSVqljeqkNBg6xIUDM.jpg"
+                   class="img-fluid w-100 rounded-top" alt="">
+              <img id="image-product"
+                   class="img-fluid w-100 rounded-top" alt="">
+            </a>
+          </div>
+          <div class="col-lg-6">
+<!--            <h4 class="fw-bold mb-3">[[${product.language.nameVn}]]</h4>-->
+<!--            <p class="mb-3">[[${product.category.name}]]</p>-->
+<!--            <h5 class="fw-bold mb-3" id="price-product">[[${product.formatPrice}]]</h5>-->
+            <div class="d-flex mb-4" id="average_evaluation">
+            </div>
+            <div>
+              <h4 class="text-center">Màu sắc</h4>
+
+              <div>
+                <h4 class="text-center">Kích cỡ</h4>
+              </div>
+            </div>
+            <div class="input-group quantity mb-5" style="width: 100px;">
+              <div class="input-group-btn">
+                <button class="btn btn-sm btn-minus rounded-circle bg-light border">
+                  <i class="fa fa-minus"></i>
+                </button>
+              </div>
+              <input type="text" class="form-control form-control-sm text-center border-0"
+                     value="1"
+                     id="quantity"
+              >
+              <div class="input-group-btn">
+                <button class="btn btn-sm btn-plus rounded-circle bg-light border">
+                  <i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <button
+                        class="size-100 btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
+                  <i
+                    class="fa fa-shopping-bag me-2 text-primary"></i>Đặt hàng
+                </button>
+              </div>
+              <div class="col-lg-6">
+                <a href="##"
+                   class="size-100 btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
+                  <i class="fa fa-shopping-bag   me-2 text-primary"></i>Thêm giỏ hàng</a></div>
+            </div>
+
+          </div>
+          <div class="col-lg-12">
+            <div class="d-flex flex-wrap justify-content-around">
+              <div class="d-flex flex-column mb-3">
+                <h5 class="text-center">6456</h5>
+                <div class="d-flex flex-row ju">
+                  <button class="btn btn-primary" style="margin-right: 10px"
+                  >Theo doi</button>
+                  <a class="btn btn-primary"
+                  >Xem Shop</a>
+                </div>
+              </div>
+              <div class="d-flex flex-row justify-content-around">
+                <div class="d-flex justify-content-between flex-column">
+                  <div class="d-flex flex-row justify-content-between" style="margin-right: 20px; width: 180px">
+                    <p style="font-size: 18px;">Danh gia</p>
+                    <a style="font-size: 18px;"
+                    >52</a>
+                  </div>
+                  <div class="d-flex flex-row justify-content-between"style="margin-right: 20px; width: 180px">
+                    <p style="font-size: 18px;">San pham</p>
+                    <a style="font-size: 18px;" class="text-danger" >3453</a>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between flex-column">
+                  <div class="d-flex flex-row justify-content-between" style="margin-right: 20px; width: 180px">
+                    <p style="font-size: 18px;">Tham gia</p>
+                    <p style="font-size: 18px;" class="text-danger">52</p>
+                  </div>
+                  <div class="d-flex flex-row justify-content-between" style="margin-right: 20px; width: 180px" >
+                    <p style="font-size: 18px;">Nguoi theo doi</p>
+<!--                    <p style="font-size: 18px;" class="text-danger" >[[${product.vendor.numberOfUserFavorite}]]</p>-->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <nav>
+              <div class="nav nav-tabs mb-3">
+                <button class="nav-link active border-white border-bottom-0" type="button" role="tab"
+                        id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about"
+                        aria-controls="nav-about" aria-selected="true">mô tả
+                </button>
+                <button class="nav-link border-white border-bottom-0" type="button" role="tab"
+                        id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
+                        aria-controls="nav-mission" aria-selected="false">đánh giá
+                </button>
+              </div>
+            </nav>
+            <div class="tab-content mb-5">
+              <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+<!--                <p>[[${product.description}]]</p>-->
+
+              </div>
+              <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+<!--                <div class="d-flex" th:each="evaluation : ${product.evaluations}"-->
+<!--                     th:id="${'evaluation_' + evaluation.id}">-->
+<!--                  <img th:src="@{{url}(url=${evaluation.user.defaultImage})}"-->
+<!--                       class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;"-->
+<!--                       alt="">-->
+<!--                  <div class="">-->
+<!--                    <p class="mb-2" style="font-size: 14px;">[[${evaluation.formatDate}]]</p>-->
+<!--                    <div class="d-flex justify-content-between">-->
+<!--                      <h5>[[${evaluation.user.username}]]</h5>-->
+<!--                      <div class="d-flex mb-3" style="right: 0">-->
+<!--                        [[${evaluation.rating}]]*-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                    <p class="text-dark">[[${evaluation.content}]]</p>-->
+<!--                    <img th:each="image : ${evaluation.images}"-->
+<!--                         th:src="@{/files/image/{imageName}(imageName=${image.name})}"-->
+<!--                         class="img-fluid rounded p-3"-->
+<!--                         style="width: 100px; height: 100px;" alt="">-->
+<!--                  </div>-->
+<!--                </div>-->
+              </div>
+              <div class="tab-pane" id="nav-vision" role="tabpanel">
+                <p class="text-dark">Tempor erat elitr rebum at clita. Diam dolor diam ipsum et tempor
+                  sit. Aliqu diam
+                  amet diam et eos labore. 3</p>
+                <p class="mb-0">Diam dolor diam ipsum et tempor sit. Aliqu diam amet diam et eos labore.
+                  Clita erat ipsum et lorem et sit</p>
+              </div>
+            </div>
+          </div>
+
+          <form
+
+          >
+            <h4 class="fw-bold">Để Lại Đánh Giá</h4>
+            <input type="hidden"
+                   id="productId"
+            >
+            <div class="row g-4">
+              <div class="col-lg-12">
+                <div class="border-bottom rounded my-4">
+                                    <textarea name="content"
+
+                                              cols="30" rows="8"
+                                              placeholder="Đánh giá của bạn*"
+                                    ></textarea>
+                </div>
+                <div class="border-bottom rounded my-4">
+                  <input type="file" multiple
+                         class="form-control"
+                         name="image"
+                  >
+                </div>
+                <input type="hidden" name="rating"  id="rating">
+              </div>
+              <div class="col-lg-12">
+                <div class="d-flex justify-content-between py-3 mb-5">
+                  <div class="d-flex align-items-center">
+                    <p class="mb-0 me-3">Đánh giá:</p>
+                    <div class="d-flex align-items-center" style="font-size: 12px;">
+                      <i class="fa fa-star" id="rate#1" onclick="rating(1)"></i>
+                      <i class="fa fa-star" id="rate#2" onclick="rating(2)"></i>
+                      <i class="fa fa-star" id="rate#3" onclick="rating(3)"></i>
+                      <i class="fa fa-star" id="rate#4" onclick="rating(4)"></i>
+                      <i class="fa fa-star" id="rate#5" onclick="rating(5)"></i>
+                    </div>
+                  </div>
+                  <button type="submit"
+                          class="btn border border-secondary rounded-pill px-4 py-2 mb-4 text-primary">
+                    Đăng
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-lg-4 col-xl-3">
+        <div class="row g-4 fruite">
+          <div class="col-lg-12">
+            <div class="mb-4">
+              <h4>Thể Loại</h4>
+              <ul class="list-unstyled fruite-categorie">
+                <li>
+                  <div class="d-flex justify-content-between fruite-name">
+                    <a ><i
+                      class="fas me-2"></i>234234</a>
+                    <span>(232)</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h1 class="fw-bold mb-0">Các sản phẩm liên quan</h1>
+      <div class="vesitable">
+        <div class="owl-carousel vegetable-carousel justify-content-center" id="relative-product">
+          <div
+               class="border border-primary rounded position-relative">
+            <div class="vesitable-img">
+              <a >
+                <img
+                     src="https://as2.ftcdn.net/v2/jpg/00/73/00/39/1000_F_73003953_DVFZYwH4iXxOlsNSVqljeqkNBg6xIUDM.jpg"
+                     class="img-fluid-redesign w-100 rounded-top" alt="">
+                <img
+
+                     class="img-fluid-redesign w-100 rounded-top" alt="">
+              </a>
+            </div>
+            <div class="text-white bg-primary px-3 py-1 rounded position-absolute"
+                 style="top: 10px; right: 10px;">werr
+            </div>
+            <div class="p-4 pb-0 rounded-bottom">
+<!--              <a -->
+<!--              >-->
+<!--                <h4 class="text-truncate">[[${p.language.nameVn}]]</h4></a>-->
+<!--              <p class="text-truncate">[[${p.description}]]</p>-->
+<!--              <div class="d-flex justify-content-between flex-lg-wrap">-->
+<!--                <p class="text-dark fs-5 fw-bold">[[${p.formatPrice}]]</p>-->
+<!--                <button-->
+<!--                  th:onclick="addNewBasket([[${p.stocks.get(0).id}]], [[${p.stocks.get(0).stockClassifications.get(0).id}]])"-->
+<!--                  class="btn border border-secondary rounded-pill px-3 py-1 mb-4 text-primary"><i-->
+<!--                  class="fa fa-shopping-bag me-2 text-primary"-->
+<!--                >-->
+<!--                </i>Thêm-->
+<!--                </button>-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
