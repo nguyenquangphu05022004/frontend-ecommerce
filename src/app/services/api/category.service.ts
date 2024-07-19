@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Category} from "./model/object.model";
-import {FormControl} from "@angular/forms";
+import {environment} from "../../../environment/enviroment";
+import {APIListResponse, APIResponse} from "./model/output.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  private url: string = "/categories"
+  private url: string= `${environment.REST_API_SERVER}/categories`
 
   constructor(private httpClient: HttpClient) { }
 
@@ -17,12 +18,12 @@ export class CategoryService {
   }
 
   getAllCategory() {
-    return this.httpClient.get<Array<Category>>(this.url);
+    return this.httpClient.get<APIListResponse<Category>>(this.url);
   }
 
   getById(categoryId: number) {
     const url = `${this.url}/${categoryId}`
-    return this.httpClient.get<Category>(url)
+    return this.httpClient.get<APIResponse<Category>>(url)
   }
 
 

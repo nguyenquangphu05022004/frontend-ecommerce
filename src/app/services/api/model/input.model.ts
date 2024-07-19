@@ -5,7 +5,7 @@ export interface FilterInputRequestProduct {
   limit?: number,
   page?: number,
   sortProductType?: SortProductType,
-  pairs?: Array<Pair<KeySearchRequest, string>>
+  pairs?: Map<String, String>
 }
 
 export interface VendorRequest {
@@ -16,7 +16,7 @@ export interface VendorRequest {
 
 export interface CartRequest {
   stockId?: number,
-  operationId?: string
+  operation?: string
 }
 export interface RegisterRequest {
   username?: string,
@@ -30,10 +30,11 @@ export interface AuthenRequest {
   password?: string
 }
 export enum KeySearchRequest {
-  PRODUCT_NAME= "PRODUCT_NAME",
-  CATEGORY_IS = "CATEGORY_ID",
-  BRAND_ID = "BRAND_ID",
-  PRICE="PRICE"
+  PRODUCT_NAME= "PRODUCT_NAME_",
+  CATEGORY_PARENT_ID = "CATEGORY_PARENT_ID_",
+  CATEGORY_CHILDREN_ID="CATEGORY_CHILDREN_ID_",
+  BRAND_ID = "BRAND_ID_",
+  PRICE="PRICE_"
 }
 export interface Pair<K, V>  {
   key: K,

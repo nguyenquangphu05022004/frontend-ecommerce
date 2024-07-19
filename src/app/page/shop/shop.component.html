@@ -12,7 +12,7 @@
                      aria-describedby="search-icon-1">
               <button
                 id="search-icon-1"
-                      class="input-group-text p-3">
+                class="input-group-text p-3">
                 <i class="fa fa-search" style="cursor: pointer"></i>
               </button>
             </div>
@@ -34,22 +34,33 @@
           <div class="col-lg-3">
             <div class="row g-4">
               <div class="col-lg-12">
-                <div class="mb-3">
+                <div class="mb-2">
                   <h6>Thể Loại</h6>
                   <select class="form-select"
                           id="categoryId"
                           aria-label="Floating label select example"
                           name="categoryId"
+                          (change)="setCategoryParent($event)"
                   >
-                    <option
-                      value="0">Chọn thể loại</option>
-                    <span
-                    >
-                                            <option
-                                            >
-                                            </option>
-                                        </span>
+                    <option value="-1">Chọn thể loại</option>
+                    <option *ngFor="let cate of responseCategories.data; let i = index" value="{{i}}">{{ cate.name }}
+                    </option>
                   </select>
+                </div>
+              </div>
+              <div *ngIf="categoryChildren !== undefined" class="col-lg-12">
+                <div class="mb-3">
+                  <h6>Phan loai</h6>
+                  <div class=" mt-3"
+                       *ngFor="let childCate of categoryChildren; let i = index"
+                  >
+                    <input type="checkbox"
+                           class="form-check-input size-100 mx-2"
+                           value="{{childCate.id}}" id="categoryChildId_{{i}}"
+                           (click)="setCategoryChildren($event)"
+                    >
+                    <label for="categoryChildId_{{i}}" class="form-check-label">{{ childCate.name }}</label>
+                  </div>
                 </div>
               </div>
               <div class="col-lg-12">
@@ -73,7 +84,8 @@
                       <label for="endPrice">Đến</label>
                     </div>
                     <button
-                      class="btn btn-primary">Tìm kiếm</button>
+                      class="btn btn-primary">Tìm kiếm
+                    </button>
                   </div>
                 </div>
               </div>
@@ -81,29 +93,67 @@
           </div>
           <div class="col-lg-9">
             <div class="row g-4 justify-content-center" id="products">
+              <div *ngFor="let product of responseProducts.data" class="col-md-6 col-lg-6 col-xl-4">
+                <div class="rounded position-relative fruite-item">
+                  <div class="fruite-img">
+                    <img [src]="product.stocks?.at(0)?.imageUrls?.at(0)"
+                         class="img-fluid-redesign w-100 rounded-top"
+                         alt=""
+                    />
+                  </div>
+                  <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                       style="top: 10px; left: 10px;"
+                  >
+                    {{ product.categoryName }}
+                  </div>
+                  <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                       style="top: 10px; right: 10px;"
+                  >
+                    4*
+                  </div>
+                  <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                    <div class="col-12 text-truncate h4">
+                      Tên: {{ product.name }}
+                    </div>
+                    <div class="col-12 text-truncate">
+                      Mô tả: {{ product.description }}
+                    </div>
+                    <div class="d-flex justify-content-between flex-lg-wrap mb-1">
+                      <p class="text-dark fs-5 fw-bold mb-0">Giá: {{ product.priceRange }}</p>
+                    </div>
+                    <p class="mb-1" style="color: red; font-weight: bold">Đã bán: {{ 55 }}</p>
+                    <div class="d-flex justify-content-between flex-lg-wrap mb-4">
+                      <a
+                        routerLink="/vendor/{{product.vendor?.id}}"
+                        style="cursor: pointer;"
+                        class="fs-5 fw-bold mb-0">Shop:
+                        {{ product.vendor?.shopName }}</a>
+                    </div>
+                    <div class="row text-center">
+                      <div class="col-lg-6">
+                        <a href="/products/${product.id}/${product.language.nameVn}"
+                           class="btn border border-secondary rounded-pill px-3 text-primary w-100">
+                          Mua</a>
+                      </div>
+                      <div class="col-lg-6">
+                        <button
+                          (click)="addProductIntoCart(product.stocks?.at(0)?.id, '+')"
+                          class="button-add-product btn border border-secondary rounded-pill px-3 text-primary w-100">
+                          Thêm
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="col-12">
-              <div id="page" class="pagination d-flex justify-content-center mt-5">
-                <script>
-                  const pageElement = document.getElementById("page");
-                  const total = [[${totalPage}]]
-                  let html = ''
-                  if (total > 0) {
-                    html += `<a style="cursor: pointer" onclick='getPage(0)' class="rounded">&laquo;</a>`
-                  }
-                  for (let i = 0; i < total; i++) {
-                    if (i === [[${page}]]) {
-                      html += `<a class="rounded active disabled">${i + 1}</a>`
-                    } else {
-                      html += `<a style="cursor: pointer" onclick='getPage(${i})' class="rounded">${i + 1}</a>`
-                    }
-                  }
-                  if (total > 0) {
-                    html += `<a  style="cursor: pointer" onclick='getPage(${total - 1})' class="rounded">&raquo;</a>`
-                  }
-                  pageElement.innerHTML = html
-                </script>
-              </div>
+             <app-pagination
+               [currentPage]="4"
+               [itemsPerPage]="9"
+               [totalPage]="15"
+               (pageSelectEvent)="setPage($event)"
+             ></app-pagination>
             </div>
           </div>
         </div>

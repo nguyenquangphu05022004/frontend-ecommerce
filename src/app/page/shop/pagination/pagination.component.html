@@ -1,0 +1,19 @@
+<div id="page" class="pagination d-flex justify-content-center mt-5">
+  <a style="cursor: pointer"
+     class="rounded"
+     (click)="getPage(currentPage - 1)"
+  >
+    <<
+  </a>
+  <a style="cursor: pointer"
+     *ngFor="let page of pages"
+     (click)="getPage(page)"
+     class="rounded {{page === currentPage ? 'active disabled' : ''}}">
+    {{ page }}
+  </a>
+  <a style="cursor: pointer"
+     (click)="getPage(currentPage + 1)"
+     class="rounded">
+    >>
+  </a>
+</div>

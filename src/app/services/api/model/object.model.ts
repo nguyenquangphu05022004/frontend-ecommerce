@@ -7,8 +7,8 @@ export interface Language {
 export interface BaseProduct {
   id?: number,
   brand?: Brand,
-  category?: Category,
-  language?: Language,
+  categoryName?: string,
+  name?: string,
   description?: string
 }
 
@@ -16,7 +16,8 @@ export interface Product extends BaseProduct{
   vendor?: Vendor,
   evaluations?: Array<Evaluation>,
   stocks?: Array<Stock>,
-  averageRate?: number
+  averageRate?: number,
+  priceRange?: string;
 }
 
 export enum Role {
@@ -53,7 +54,9 @@ export interface Brand {
 export interface Category {
   id?: number,
   name?: string,
-  children?: Array<Category>;
+  children?: Array<Category>,
+  slug?: string,
+  imageUrl?: string
 }
 
 export interface Evaluation {
