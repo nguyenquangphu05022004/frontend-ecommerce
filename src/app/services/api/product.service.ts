@@ -24,7 +24,7 @@ export class ProductService {
     if(filter === null || filter === undefined) {
       return this.httpClient.get<APIListResponse<Product>>(this.url);
     }
-    return this.httpClient.post<APIListResponse<Product>>(this.url, filter);
+    return this.httpClient.post<APIListResponse<Product>>(this.url + "/search", filter);
   }
 
 }

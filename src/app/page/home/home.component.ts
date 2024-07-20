@@ -11,7 +11,7 @@ import {APIListResponse} from "../../services/api/model/output.model";
 })
 export class HomeComponent implements OnInit{
 
-  responseCategories: APIListResponse<Category> = {}
+  categories: Array<Category> = new Array<Category>()
   responseProducts: APIListResponse<Product> = {}
   constructor(
     private categoryService: CategoryService,
@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit{
         this.categoryService.getAllCategory()
           .subscribe({
             next: (data) => {
-              this.responseCategories = data
+              this.categories = data
             },
             error: (err) => {
               console.log(err);

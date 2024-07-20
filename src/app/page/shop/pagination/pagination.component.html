@@ -1,5 +1,6 @@
 <div id="page" class="pagination d-flex justify-content-center mt-5">
-  <a style="cursor: pointer"
+  <a *ngIf="currentPage - 1 > 0"
+     style="cursor: pointer"
      class="rounded"
      (click)="getPage(currentPage - 1)"
   >
@@ -11,9 +12,10 @@
      class="rounded {{page === currentPage ? 'active disabled' : ''}}">
     {{ page }}
   </a>
-  <a style="cursor: pointer"
+  <a *ngIf="currentPage + 1 < totalPage"
+    style="cursor: pointer"
      (click)="getPage(currentPage + 1)"
-     class="rounded">
+     class="rounded disabled">
     >>
   </a>
 </div>

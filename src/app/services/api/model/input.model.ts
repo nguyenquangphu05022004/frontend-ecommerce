@@ -36,7 +36,3 @@ export enum KeySearchRequest {
   BRAND_ID = "BRAND_ID_",
   PRICE="PRICE_"
 }
-export interface Pair<K, V>  {
-  key: K,
-  value:V
-}

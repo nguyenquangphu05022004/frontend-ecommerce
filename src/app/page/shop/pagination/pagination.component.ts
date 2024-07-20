@@ -18,7 +18,10 @@ export class PaginationComponent implements OnInit{
 
   ngOnInit(): void {
     console.log(this.currentPage)
-    this.pages = Array.from({length: this.totalPage > 5 ? 5 : this.totalPage}, (_, i) => this.currentPage++)
+    const length = this.totalPage > 4 ? 4 : this.totalPage;
+    for(let i = this.currentPage; i <= length; i++) this.pages.push(i);
+    console.log(this.pages)
+    console.log(this.currentPage)
   }
 
   getPage(page: number) {

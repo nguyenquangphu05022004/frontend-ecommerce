@@ -22,7 +22,7 @@
 <!--                <a class="btn px-4 py-2 text-white rounded bg-dark">{{category.name}}</a>-->
 <!--              </div>-->
 <!--            &lt;!&ndash; Repeat the following block for each category &ndash;&gt;-->
-            <div *ngFor="let category of responseCategories.data; let i = index"
+            <div *ngFor="let category of categories; let i = index"
                  class="carousel-item {{i == 0 ? 'active' : ' '}} rounded">
               <img class="img-fluid w-100 rounded" style="height: 300px" [src]="category.imageUrl">
               <a href="category_link" class="btn px-4 py-2 text-white rounded bg-dark">{{category.name}}</a>

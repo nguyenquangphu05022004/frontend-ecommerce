@@ -3,7 +3,7 @@ import {Category, Product, SortProductType} from "../../services/api/model/objec
 import {CategoryService} from "../../services/api/category.service";
 import {ProductService} from "../../services/api/product.service";
 import {CartService} from "../../services/api/cart.service";
-import {FilterInputRequestProduct, KeySearchRequest} from "../../services/api/model/input.model";
+import {KeySearchRequest} from "../../services/api/model/input.model";
 import {APIListResponse} from "../../services/api/model/output.model";
 
 @Component({
@@ -11,34 +11,36 @@ import {APIListResponse} from "../../services/api/model/output.model";
   templateUrl: './shop.component.html',
   styleUrls: ['./shop.component.css']
 })
-export class ShopComponent implements OnInit{
+export class ShopComponent implements OnInit {
 
-    responseCategories: APIListResponse<Category> = {}
-    responseProducts: APIListResponse<Product> = {}
-    categoryChildren: Array<Category> | undefined = undefined;
+  categories: Array<Category> = new Array<Category>()
+  responseProducts: APIListResponse<Product> = {}
+  categoryChildren: Array<Category> | undefined  = new Array<Category>();
+  typeSortList: SortProductType = new SortProductType();
+  //properties for search product
+  keys: Map<String, String> = new Map<String, String>()
+  query: any; //text for search product,
+  startPrice: any;
+  endPrice: any;
+  sortType: any;
+  page: any = 1;
 
-    //properties for search product
-    keys: Map<String, String> = new Map<String, String>()
-    query: any; //text for search product,
-    startPrice: any;
-    endPrice: any;
-    sortType: any;
-    page: any
-    //properties for search product
+  //properties for search product
 
-    constructor(
-      private categoryService: CategoryService,
-      private productService: ProductService,
-      private cartService: CartService
-    ) {
-    }
+  constructor(
+    private categoryService: CategoryService,
+    private productService: ProductService,
+    private cartService: CartService
+  ) {
+  }
 
   ngOnInit(): void {
-        this.categoryService.getAllCategory().subscribe({
-          next: (data) => {
-            this.responseCategories = data
-          }
-        })
+    this.categoryService.getAllCategory().subscribe({
+      next: (data) => {
+        this.categories = data
+        this.updateChildrenCategory()
+      }
+    })
     this.productService.getAllProduct(null).subscribe({
       next: (data) => {
         this.responseProducts = data
@@ -62,43 +64,83 @@ export class ShopComponent implements OnInit{
   }
 
   setCategoryParent(event: any) {
-    this.keys = new Map<String, String>()
+    this.deleteKeyCategory()
     const index = event.target.value;
-    if(index == -1) {
-      this.categoryChildren = undefined
-      return;
-    };
-    this.keys.set(KeySearchRequest.CATEGORY_PARENT_ID, index)
-    this.categoryChildren = this.responseCategories?.data?.at(index)?.children;
+    this.categoryChildren = new Array<Category>()
+    if (index != - 1) {
+      //@ts-ignore
+      this.categoryChildren =  this.categories.at(index).children
+      this.keys.set(KeySearchRequest.CATEGORY_PARENT_ID, this.categories?.at(index)?.id + "")
+    } else if(index == -1) {
+      this.updateChildrenCategory()
+    }
+    this.searchProduct()
   }
+
   setCategoryChildren(event: any) {
-      const index = event.target.value;
-      if(this.keys.has(KeySearchRequest.CATEGORY_CHILDREN_ID + index)) {
-        this.keys.delete(KeySearchRequest.CATEGORY_CHILDREN_ID + index)
-      } else {
-        this.keys.set(KeySearchRequest.CATEGORY_CHILDREN_ID + index, index);
-      }
-      console.log(this.keys)
+    console.log(this.categoryChildren)
+    const cateId = event.target.value;
+    if (this.keys.has(KeySearchRequest.CATEGORY_CHILDREN_ID + cateId)) {
+      this.keys.delete(KeySearchRequest.CATEGORY_CHILDREN_ID + cateId)
+    } else {
+      this.keys.set(KeySearchRequest.CATEGORY_CHILDREN_ID + cateId, cateId);
+    }
+    this.searchProduct()
   }
 
   searchProduct() {
-      const filter = {
-        limit: this.responseProducts.limit,
-        page: this.page,
-        sortProductType: this.sortType,
-        pairs: this.keys
-      }
-      this.productService.getAllProduct(filter)
-        .subscribe({
-          next: (data) => {
-            this.responseProducts =  data
-          }
-        })
+    const filter = {
+      limit: this.responseProducts.limit,
+      page: this.page,
+      sortProductType: this.sortType,
+      mapKey: Object.fromEntries(this.keys)
+    }
+    console.log(JSON.stringify(filter))
+    this.productService.getAllProduct(filter)
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.responseProducts = data
+        }
+      })
   }
 
   setPage(page: Number) {
     this.page = page;
-    alert(page)
+    this.searchProduct()
     // this.searchProduct()
+  }
+
+  setSortType(event: any) {
+    this.sortType = event.target.value;
+    this.searchProduct()
+  }
+
+  setQuery() {
+    this.keys.set(KeySearchRequest.PRODUCT_NAME, this.query);
+    this.searchProduct()
+  }
+
+  setPrice() {
+    this.keys.set(KeySearchRequest.PRICE, `${this.startPrice};${this.endPrice}`)
+    this.searchProduct()
+  }
+
+  private deleteKeyCategory() {
+    this.keys.delete(KeySearchRequest.CATEGORY_PARENT_ID);
+    if(this.categoryChildren != undefined) {
+      this.categoryChildren.forEach((cate) => {
+        this.keys.delete(KeySearchRequest.CATEGORY_CHILDREN_ID + cate.id)
+      })
+    }
+  }
+  private updateChildrenCategory() {
+    this.categoryChildren = new Array<Category>()
+    this.categories.forEach(cate => {
+      if(cate.children !== undefined) {
+        //@ts-ignore
+        this.categoryChildren.push(...cate.children);
+      }
+    })
   }
 }

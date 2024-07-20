@@ -9,9 +9,12 @@
                      placeholder="Tìm kiếm"
                      name="query"
                      id="searchProducts"
-                     aria-describedby="search-icon-1">
+                     aria-describedby="search-icon-1"
+                     [(ngModel)]="query"
+              >
               <button
                 id="search-icon-1"
+                (click)="setQuery()"
                 class="input-group-text p-3">
                 <i class="fa fa-search" style="cursor: pointer"></i>
               </button>
@@ -21,10 +24,15 @@
           <div class="col-xl-3">
             <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
               <label for="sort-product">Sắp xếp mặc định:</label>
-              <select id="sort-product" name="typeSort"
+              <select id="sort-product" name="sortType"
                       class="border-0 form-select-sm bg-light me-3"
+                      (change)="setSortType($event)"
               >
-                <option>
+                <option
+                  *ngFor="let pair of typeSortList.typeListSort"
+                  value="{{pair.key}}"
+                >
+                  {{pair.value}}
                 </option>
               </select>
             </div>
@@ -43,7 +51,7 @@
                           (change)="setCategoryParent($event)"
                   >
                     <option value="-1">Chọn thể loại</option>
-                    <option *ngFor="let cate of responseCategories.data; let i = index" value="{{i}}">{{ cate.name }}
+                    <option *ngFor="let cate of categories; let i = index" value="{{i}}">{{ cate.name }}
                     </option>
                   </select>
                 </div>
@@ -72,6 +80,7 @@
                              class="form-control"
                              id="startPrice"
                              name="startPrice"
+                             [(ngModel)]="startPrice"
                       >
                       <label for="startPrice">Từ</label>
                     </div>
@@ -80,11 +89,12 @@
                              class="form-control"
                              id="endPrice"
                              name="endPrice"
+                             [(ngModel)]="endPrice"
                       >
                       <label for="endPrice">Đến</label>
                     </div>
                     <button
-                      class="btn btn-primary">Tìm kiếm
+                      class="btn btn-primary" (click)="setPrice()">Tìm kiếm
                     </button>
                   </div>
                 </div>
@@ -147,11 +157,11 @@
                 </div>
               </div>
             </div>
-            <div class="col-12">
+            <div class="col-12" *ngIf="responseProducts.totalPage !== undefined">
              <app-pagination
-               [currentPage]="4"
-               [itemsPerPage]="9"
-               [totalPage]="15"
+               [currentPage]="responseProducts.page"
+               [itemsPerPage]="responseProducts.limit"
+               [totalPage]="responseProducts.totalPage"
                (pageSelectEvent)="setPage($event)"
              ></app-pagination>
             </div>

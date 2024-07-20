@@ -54,7 +54,7 @@ export interface Brand {
 export interface Category {
   id?: number,
   name?: string,
-  children?: Array<Category>,
+  children: Array<Category>,
   slug?: string,
   imageUrl?: string
 }
@@ -111,15 +111,23 @@ export enum  Payment {
   PAY_AT_HOME,
   PAY_BY_BANK
 }
-export enum SortProductType {
-    DEFAULT,
-  RATE_AVERAGE,
-  NUMBER_OF_SELLER,
-  PRICE
+export class SortProductType {
+    typeListSort: Array<Pair<string, string>> = new Array<Pair<string, string>>()
+    constructor() {
+      this.typeListSort.push({key: "DEFAULT", value: "Mặc định"})
+      this.typeListSort.push({key: "RATE_AVERAGE", value: "Đánh giá cao"})
+      this.typeListSort.push({key: "NUMBER_OF_SELLER", value: "Số lượng bán"})
+      this.typeListSort.push({key: "PRICE", value: "Giá bán"})
+    }
 }
 export enum OrderStatus {
     ALL,
   SUCCESS,
   PROCESSING,
   NOT_APPROVAL
+}
+
+export interface Pair<K, V>  {
+  key: K,
+  value:V
 }
