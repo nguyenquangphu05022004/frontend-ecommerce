@@ -8,21 +8,19 @@ import {environment} from "../../../environment/enviroment";
   providedIn: 'root'
 })
 export class CartService {
-  private url: string = "/shopping-cart"
   constructor(private httpClient: HttpClient) { }
 
   addProductIntoCart(request: CartRequest) {
-    const url = `${environment.REST_API_SERVER}${this.url}/products/stocks`
+    const url = `${environment.REST_API_SERVER}/shopping-cart/products/stocks`
     return this.httpClient.post(url, request);
   }
-
   getShoppingCart() {
-    const url = `${environment.REST_API_SERVER}${this.url}/products/stocks`
+    const url = `${environment.REST_API_SERVER}/shopping-cart/products/stocks`
     return this.httpClient.get<ShoppingCartResponse>(url);
   }
 
   deleteProduct(stockId: number, vendorId: number) {
-    const url = `${environment.REST_API_SERVER}${this.url}/products/stocks?stockId=${stockId}&vendorId=${vendorId}`
+    const url = `${environment.REST_API_SERVER}/shopping-cart/products/stocks?stockId=${stockId}&vendorId=${vendorId}`
     return this.httpClient.delete(url);
   }
 }

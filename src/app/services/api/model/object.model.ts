@@ -6,7 +6,7 @@ export interface Language {
 
 export interface BaseProduct {
   id?: number,
-  brand?: Brand,
+  brandName?: string,
   categoryName?: string,
   name?: string,
   description?: string
@@ -68,7 +68,7 @@ export interface Evaluation {
 
 export interface Stock {
   id?: number,
-  price?: number,
+  price: number,
   code?: string,
   color?: string,
   product?: BaseProduct,
@@ -76,12 +76,17 @@ export interface Stock {
   stockClassifications?: Array<StockClassification>
 }
 
-export interface Vendor {
-  id?: number,
-  shopName?: string,
-  perMoneyDelivery?: number,
-  numberOfProduct?: number,
+export class Vendor {
+  id?: number
+  shopName?: string
+  perMoneyDelivery?: number
+  numberOfProduct?: number
   numberOfUserFavorite?: number
+  constructor(id: number | undefined, shopName: string | undefined, perMoneyDelivery: number | undefined) {
+    this.id = id;
+    this.shopName = shopName;
+    this.perMoneyDelivery = perMoneyDelivery;
+  }
 }
 
 export interface StockClassification {

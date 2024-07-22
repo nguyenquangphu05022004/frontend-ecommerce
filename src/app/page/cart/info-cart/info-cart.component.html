@@ -1,0 +1,48 @@
+  <div
+       *ngFor="let vendorCartResponse of cartResponse.vendors; let vendorIndex = index"
+  >
+    <table class="table">
+      <thead>
+          <tr>
+            <th colspan="12">
+              <input type="checkbox" value= "{{vendorIndex}}" (click)="selectVendor($event)" [checked]="keyCheck.has(keyVendor + vendorIndex) ? keyCheck.get(keyVendor + vendorIndex) : false"> {{vendorCartResponse.shopName}}
+            </th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let itemResponse of vendorCartResponse.itemResponses; let i = index" class="hidden-scroll">
+          <td style="width: 40%" colspan="8">
+            <input type="checkbox" class="check-box" (click)="selectItem($event)"
+                   value="{{itemResponse.stock?.id}}"
+                   [checked]="keyCheck.has(keyVendor + keyStock + itemResponse.stock?.id) ? keyCheck.get(keyVendor + keyStock + itemResponse.stock?.id) : false" >
+             <img src="{{itemResponse.stock?.imageUrls?.at(0)}}" width="130px">{{itemResponse.stock?.product?.name}}
+          </td>
+          <td style="width: 10%" colspan="1" class="price">{{itemResponse.stock?.price}}</td>
+          <td style="width: 20%" colspan="1">
+            <div class="input-group quantity mt-4" style="width: 100px;">
+              <div class="input-group-btn">
+                <button
+                  class="btn btn-sm btn-minus rounded-circle bg-light border"
+                >
+                  <i class="fa fa-minus"></i>
+                </button>
+              </div>
+              <input type="text"
+                     class="form-control form-control-sm text-center border-0"
+                     value="{{itemResponse.quantity}}"
+                     min=1>
+              <div class="input-group-btn">
+                <button
+                  class="btn btn-sm btn-plus rounded-circle bg-light border"
+                >
+                  <i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+          </td>
+          <td style="width: 15%" colspan="1" class="total-price">{{Common.getFormatNumber(getTotalPrice(itemResponse.quantity, itemResponse.stock))}}</td>
+          <td style="width: 15%" colspan="1" class="delete">Xoa</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

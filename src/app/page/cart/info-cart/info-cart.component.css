@@ -1,0 +1,6 @@
+.price, .delete, .total-price {
+  transform: translateY(25%);
+}
+.table-responsive {
+  overflow-x: hidden;
+}

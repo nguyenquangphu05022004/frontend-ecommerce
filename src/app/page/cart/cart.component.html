@@ -1,77 +1,45 @@
-<body class="container-fluid" style="padding-top: 95px">
-<!-- Cart Page Start -->
-
-<div class="container py-5">
+<div style="padding-top: 95px">
+<div class="container py-5" >
   <div class="table-responsive">
-    <table class="table">
+  <table class="table">
       <thead>
       <tr>
-        <th scope="col">Sản phẩm</th>
-        <th scope="col">Tên</th>
-        <th scope="col">Phân loại</th>
-        <th scope="col">Giá</th>
-        <th scope="col">Số lượng</th>
-        <th scope="col">Tổng</th>
-        <th scope="col">Xóa</th>
+        <th scope="col" style="width: 40%" colspan="8"><input type="checkbox" (click)="changeSelectAll()" [checked]="selectAll"> San pham</th>
+        <th scope="col" style="width: 10%" colspan="1">Gia</th>
+        <th scope="col" style="width: 20%" colspan="1">So luong</th>
+        <th scope="col" style="width: 15%" colspan="1">So tien</th>
+        <th scope="col" style="width: 15%" colspan="1">Thao tac</th>
       </tr>
       </thead>
-      <tbody>
-      <tr
-      >
-        <th scope="row">
-          <div class="d-flex align-items-center">
-            <img
-                 src="https://as2.ftcdn.net/v2/jpg/00/73/00/39/1000_F_73003953_DVFZYwH4iXxOlsNSVqljeqkNBg6xIUDM.jpg"
-                 class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
-            <img
-                 class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
-          </div>
-        </th>
-        <td>
-          <a class="mt-4 mb-0"
-            ></a>
-        </td>
-        <td>
-          <p class="mb-0 mt-4">
-          </p>
-        </td>
-        <td>
-          <p class="mb-0 mt-4" ></p>
-        </td>
-        <td>
-          <div class="input-group quantity mt-4" style="width: 100px;">
-            <div class="input-group-btn">
-              <button
-                class="btn btn-sm btn-minus rounded-circle bg-light border"
-              >
-                <i class="fa fa-minus"></i>
-              </button>
-            </div>
-            <input type="text"
-                   class="form-control form-control-sm text-center border-0"
-                   min=1>
-            <div class="input-group-btn">
-              <button
-                class="btn btn-sm btn-plus rounded-circle bg-light border"
-              >
-                <i class="fa fa-plus"></i>
-              </button>
-            </div>
-          </div>
-        </td>
-        <td>
-          <p class="mb-0 mt-4"
-          ></p>
-        </td>
-        <td>
+  </table>
+    <app-info-cart
+      [cartResponse]="shoppingCartResponse"
+      [keyCheck]="keyCheck"
+      [selectAll] = "selectAll"
+      (getProductSelected)="showCheckout($event)"
+    ></app-info-cart>
+    <div class="d-flex justify-content-evenly">
+      <div class="d-flex flex-row">
+        <div class="d-flex">
+          <input type="checkbox" id="totalItem" class="form-check-input">
+          <label for="totalItem" class="form-check-label" style="margin-left: 20px">Chon tat ca({{shoppingCartResponse.vendors?.length}})</label>
+        </div>
+        <div>
+          <button class="btn btn-primary">Xoa</button>
+        </div>
+      </div>
+      <div class="d-flex flex-row">
+        <div>
+          <p>Tong thanh toan({{getTotalItem()}}): {{Common.getFormatNumber(getTotalPrice())}}</p>
+        </div>
+        <div>
           <button
-                  class="btn btn-md rounded-circle bg-light border mt-4">
-            <i class="fa fa-times text-danger"></i>
-          </button>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+            class="btn btn-primary {{getTotalItem() >0 ? '' : 'disabled'}}"
+            (click)="negativeToOrderPage()"
+          >Mua hang</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-</body>
+</div>

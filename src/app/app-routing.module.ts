@@ -8,6 +8,7 @@ import {RegisterComponent} from "./page/register/register.component";
 import {ProductDetailComponent} from "./page/product-detail/product-detail.component";
 import {CartComponent} from "./page/cart/cart.component";
 import {FooterComponent} from "./layout/footer/footer.component";
+import {OrderComponent} from "./page/cart/order/order.component";
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
   {
     path: "cart",
     component: CartComponent
+  },
+  {
+    path: "order",
+    component: OrderComponent
   }
 ];
 

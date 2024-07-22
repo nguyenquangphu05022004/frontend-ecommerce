@@ -16,6 +16,8 @@ import {HeaderComponent} from "./layout/header/header.component";
 import {FooterComponent} from './layout/footer/footer.component';
 import {FormsModule} from "@angular/forms";
 import {PaginationComponent} from "./page/shop/pagination/pagination.component";
+import { InfoCartComponent } from './page/cart/info-cart/info-cart.component';
+import { OrderComponent } from './page/cart/order/order.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +32,8 @@ import {PaginationComponent} from "./page/shop/pagination/pagination.component";
     HeaderComponent,
     FooterComponent,
     PaginationComponent,
+    InfoCartComponent,
+    OrderComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,14 +1,17 @@
 import {Stock, Vendor} from "./object.model";
 
-export interface VendorCartResponse extends Vendor{
+export class VendorCartResponse extends Vendor{
+  constructor(id: number | undefined, shopName: string | undefined, perMoneyDelivery: number | undefined) {
+    super(id, shopName, perMoneyDelivery);
+  }
   itemResponses?: Array<ItemResponse>
 }
-export interface ItemResponse {
-  stock?: Stock,
-  quantity?: number,
+export class ItemResponse {
+  stock?: Stock
+  quantity?: number
   createAt?: any
 }
-export interface ShoppingCartResponse {
+export class ShoppingCartResponse {
   vendors?: Array<VendorCartResponse>
 }
 
