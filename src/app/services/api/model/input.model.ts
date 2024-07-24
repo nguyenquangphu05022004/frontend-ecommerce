@@ -16,7 +16,9 @@ export interface VendorRequest {
 
 export interface CartRequest {
   stockId?: number,
-  operation?: string
+  operation?: string,
+  quantity?: number,
+  stockClassificationId?: number
 }
 export interface RegisterRequest {
   username?: string,

@@ -7,7 +7,7 @@ export interface Language {
 export interface BaseProduct {
   id?: number,
   brandName?: string,
-  categoryName?: string,
+  category?: Category,
   name?: string,
   description?: string
 }
@@ -68,7 +68,7 @@ export interface Evaluation {
 
 export interface Stock {
   id?: number,
-  price: number,
+  price?: number,
   code?: string,
   color?: string,
   product?: BaseProduct,
@@ -82,6 +82,7 @@ export class Vendor {
   perMoneyDelivery?: number
   numberOfProduct?: number
   numberOfUserFavorite?: number
+  dateParticipate?: string
   constructor(id: number | undefined, shopName: string | undefined, perMoneyDelivery: number | undefined) {
     this.id = id;
     this.shopName = shopName;
@@ -94,6 +95,7 @@ export interface StockClassification {
   quantityOfProduct?: number,
   sizeName?: string,
   seller?: number
+
 }
 
 export interface Order {
@@ -132,7 +134,23 @@ export enum OrderStatus {
   NOT_APPROVAL
 }
 
+
+export interface Coupon {
+  id?: number,
+  code?: string,
+  start?: any;
+  end?: any,
+  decreaseMoney: number;
+}
+
 export interface Pair<K, V>  {
-  key: K,
-  value:V
+  key?: K,
+  value?:V
+}
+
+
+export enum Status {
+  NOT_FOUND = 1000,
+  SUCCESS= 1111,
+  CODE_EXPIRED =1001
 }

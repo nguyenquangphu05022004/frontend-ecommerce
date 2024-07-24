@@ -1,8 +1,7 @@
-import {Component, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CartService} from "../../services/api/cart.service";
-import {ItemResponse, ShoppingCartResponse, VendorCartResponse} from "../../services/api/model/output.model";
+import {ShoppingCartResponse, VendorCartResponse} from "../../services/api/model/output.model";
 import {Router} from "@angular/router";
-import {Vendor} from "../../services/api/model/object.model";
 import {Common} from "../../../environment/common";
 
 @Component({

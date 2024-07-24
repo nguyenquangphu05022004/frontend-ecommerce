@@ -9,7 +9,7 @@
         <div class="row">
           <div class="col-md-12 col-lg-6">
             <div class="form-item w-100">
-              <label class="form-label my-3">Họ và tên<sup>*</sup></label>
+              <label class="form-label my-3">Fullname<sup>*</sup></label>
               <input type="text"
                      class="form-control"
                      name="fullName"
@@ -18,7 +18,7 @@
           </div>
           <div class="col-md-12 col-lg-6">
             <div class="form-item w-100">
-              <label class="form-label my-3">Số điện thoại<sup>*</sup></label>
+              <label class="form-label my-3">Phone number<sup>*</sup></label>
               <input type="tel"
                      class="form-control"
                      name="phoneNumber"
@@ -30,7 +30,7 @@
         <div class="row">
           <div class="col-md-12 col-lg-6">
             <div class="form-item w-100">
-              <label class="form-label my-3">Địa chỉ<sup>*</sup></label>
+              <label class="form-label my-3">Address<sup>*</sup></label>
               <input type="text"
                      class="form-control"
                      name="address"
@@ -39,7 +39,7 @@
           </div>
           <div class="col-md-12 col-lg-6">
             <div class="form-item w-100">
-              <label class="form-label my-3">Tỉnh<sup>*</sup></label>
+              <label class="form-label my-3">Province<sup>*</sup></label>
               <input type="text" class="form-control"
                      name="province"
               >
@@ -59,19 +59,21 @@
             <input type="text"
                    class="border-0 border-bottom rounded me-5 mb-4"
                    id="coupon"
+                   name = "couponCode"
+                   [(ngModel)]="couponCode"
                    placeholder="Coupon Code">
-            <button  class="btn border-secondary rounded-pill text-primary" type="button">Apply Coupon</button>
+            <button  class="btn border-secondary rounded-pill text-primary" type="button" (click)="findCouponByVendor(vendor.id)">Apply Coupon</button>
           </div>
           <div class="table-responsive">
             <table class="table">
               <thead>
               <tr>
-                <th scope="col">Sản phẩm</th>
-                <th scope="col">Loại mặt hàng</th>
-                <th scope="col">Gia</th>
-                <th scope="col">Số lượng</th>
-                <th scope="col">Giảm giá</th>
-                <th scope="col">Tổng</th>
+                <th scope="col">Product</th>
+                <th scope="col">Specification</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Decrease</th>
+                <th scope="col">Total</th>
               </tr>
               </thead>
               <tbody>
@@ -89,7 +91,7 @@
                 </td>
                 <td class="py-5" >{{Common.getFormatNumber(itemResponse.stock?.price)}}</td>
                 <td class="py-5">{{itemResponse.quantity}}</td>
-                <td class="py-5" id="coupon-decrease">0 %</td>
+                <td class="py-5" id="coupon-decrease">0</td>
                 <td class="py-5" >
                   {{
                     Common.getFormatNumber(getTotalPriceOfItem(itemResponse))
@@ -97,7 +99,7 @@
                 </td>
               </tr>
               <tr>
-                <td colspan="5">Tong</td>
+                <td colspan="5">Total</td>
                 <td colspan="1">{{Common.getFormatNumber(getTotalPriceOfVendor(vendor))}}</td>
               </tr>
               </tbody>
@@ -108,7 +110,7 @@
       <div class="col-md-12 col-lg-6 col-xl-4">
         <div class="row g-4 text-center align-items-center justify-content-center border-bottom">
           <h4 class="d-flex justify-content-between align-items-center">
-            <span class="text-muted">San pham</span>
+            <span class="text-muted">Product</span>
             <span class="badge-secondary badge-pill">{{getTotalItem()}}</span>
           </h4>
           <ul class="list-group mb-3">
@@ -118,6 +120,10 @@
               <span class="text-muted">{{Common.getFormatNumber(item.stock?.price)}}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between">
+              <span>Decrease (VND)</span>
+              <strong>{{Common.getFormatNumber(getTotalDecrease())}}</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
               <span>Total (VND)</span>
               <strong>{{Common.getFormatNumber(getTotalPrice())}}</strong>
             </li>
@@ -125,7 +131,7 @@
         </div>
         <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
           <div class="col-12">
-            <h2 class="mb-4">Phương thức thanh toán</h2>
+            <h2 class="mb-4">Payment method</h2>
           </div>
         </div>
         <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
@@ -136,7 +142,7 @@
                      id="delivery1"
                      name="delivery"
                      value="PAY_AT_HOME">
-              <label class="form-check-label" for="delivery1">Thanh toán tại nhà</label>
+              <label class="form-check-label" for="delivery1">At home</label>
             </div>
           </div>
         </div>
@@ -148,14 +154,14 @@
                      id="delivery2"
                      name="delivery"
                      value="PAY_BY_BANK">
-              <label class="form-check-label" for="delivery2">Thanh toán qua ngân hàng</label>
+              <label class="form-check-label" for="delivery2">Over banking</label>
             </div>
           </div>
         </div>
         <div class="row g-4 text-center align-items-center justify-content-center pt-4">
           <a href="##"
              class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary"
-          >Đặt hàng</a>
+          >Order</a>
         </div>
       </div>
     </div>

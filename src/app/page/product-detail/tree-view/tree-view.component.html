@@ -1,0 +1,19 @@
+<ul class="tree">
+  <li>
+    <details *ngFor="let category of categories">
+      <summary>
+        <a href="javascript:(0)" style="color: #af8022" (click)="searchProduct(category.id, undefined)">{{category.name}}</a>
+      </summary>
+      <ul>
+        <li *ngFor="let children of category.children">
+          <details>
+            <summary class="d-flex justify-content-between">
+              <a  href="javascript:(0)" style="color: black" (click)="searchProduct(category.id, children.id)">{{children.name}}</a>
+              <span>8</span>
+            </summary>
+          </details>
+        </li>
+      </ul>
+    </details>
+  </li>
+</ul>

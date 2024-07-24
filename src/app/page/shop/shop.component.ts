@@ -5,6 +5,7 @@ import {ProductService} from "../../services/api/product.service";
 import {CartService} from "../../services/api/cart.service";
 import {KeySearchRequest} from "../../services/api/model/input.model";
 import {APIListResponse} from "../../services/api/model/output.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-shop',
@@ -15,7 +16,7 @@ export class ShopComponent implements OnInit {
 
   categories: Array<Category> = new Array<Category>()
   responseProducts: APIListResponse<Product> = {}
-  categoryChildren: Array<Category> | undefined  = new Array<Category>();
+  categoryChildren: Array<Category> | undefined = new Array<Category>();
   typeSortList: SortProductType = new SortProductType();
   //properties for search product
   keys: Map<String, String> = new Map<String, String>()
@@ -27,25 +28,58 @@ export class ShopComponent implements OnInit {
 
   //properties for search product
 
+  catePass: CatePass | undefined = {}
+
   constructor(
     private categoryService: CategoryService,
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private router: Router
   ) {
+    if (this.router.getCurrentNavigation()?.extras.state !== undefined) {
+      //@ts-ignore
+      this.catePass = this.router.getCurrentNavigation()?.extras.state.category;
+      if (this.catePass != undefined) {
+        this.keys.set(KeySearchRequest.CATEGORY_PARENT_ID, this.catePass.parentId + "")
+        if (this.catePass.childrenId != undefined) {
+          this.keys.set(KeySearchRequest.CATEGORY_CHILDREN_ID + this.catePass.childrenId, this.catePass.childrenId + "");
+        }
+      }
+    }else {
+      this.catePass = undefined
+    }
+    console.log("underfaind: " + this.catePass)
+
   }
 
   ngOnInit(): void {
+    console.log("hohoh")
     this.categoryService.getAllCategory().subscribe({
       next: (data) => {
         this.categories = data
-        this.updateChildrenCategory()
+        if (this.catePass === undefined) {
+          this.updateChildrenCategory()
+        }
+        else {
+          this.categories.forEach(cate => {
+            if (cate.id === this.catePass?.parentId) {
+              this.categoryChildren = cate.children
+            }
+          })
+        }
       }
     })
-    this.productService.getAllProduct(null).subscribe({
-      next: (data) => {
-        this.responseProducts = data
-      }
-    })
+
+    if (this.catePass === undefined) {
+      this.productService.getAllProduct(null).subscribe({
+        next: (data) => {
+          this.responseProducts = data
+        }
+      })
+    } else {
+      console.log(this.categories)
+      this.searchProduct()
+    }
   }
 
 
@@ -67,11 +101,11 @@ export class ShopComponent implements OnInit {
     this.deleteKeyCategory()
     const index = event.target.value;
     this.categoryChildren = new Array<Category>()
-    if (index != - 1) {
+    if (index != -1) {
       //@ts-ignore
-      this.categoryChildren =  this.categories.at(index).children
+      this.categoryChildren = this.categories.at(index).children
       this.keys.set(KeySearchRequest.CATEGORY_PARENT_ID, this.categories?.at(index)?.id + "")
-    } else if(index == -1) {
+    } else if (index == -1) {
       this.updateChildrenCategory()
     }
     this.searchProduct()
@@ -90,7 +124,7 @@ export class ShopComponent implements OnInit {
 
   searchProduct() {
     const filter = {
-      limit: this.responseProducts.limit,
+      limit: this.responseProducts.limit === undefined ? 9 : this.responseProducts.limit,
       page: this.page,
       sortProductType: this.sortType,
       mapKey: Object.fromEntries(this.keys)
@@ -128,19 +162,28 @@ export class ShopComponent implements OnInit {
 
   private deleteKeyCategory() {
     this.keys.delete(KeySearchRequest.CATEGORY_PARENT_ID);
-    if(this.categoryChildren != undefined) {
+    if (this.categoryChildren != undefined) {
       this.categoryChildren.forEach((cate) => {
         this.keys.delete(KeySearchRequest.CATEGORY_CHILDREN_ID + cate.id)
       })
     }
   }
+
   private updateChildrenCategory() {
     this.categoryChildren = new Array<Category>()
     this.categories.forEach(cate => {
-      if(cate.children !== undefined) {
+      if (cate.children !== undefined) {
         //@ts-ignore
         this.categoryChildren.push(...cate.children);
       }
     })
   }
+
+  protected readonly KeySearchRequest = KeySearchRequest;
+}
+
+
+export interface CatePass {
+  parentId?: number,
+  childrenId?: number
 }

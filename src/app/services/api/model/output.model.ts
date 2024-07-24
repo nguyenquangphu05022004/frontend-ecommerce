@@ -16,19 +16,19 @@ export class ShoppingCartResponse {
 }
 
 export interface APIListResponse<T> {
-  message?: string,
-  error?: string,
-  ok?: number,
-  status?: string,
-  page?: number,
-  limit?: number,
-  totalPage?: number,
+  message?: string
+  error?: string
+  ok?: number
+  status?: string
+  page?: number
+  limit?: number
+  totalPage?: number
   data?: Array<T>
 }
 export interface APIResponse<T> {
   message?: string,
   error?: string,
   ok?: number,
-  status?: string
+  status?: any
   data?: T
 }

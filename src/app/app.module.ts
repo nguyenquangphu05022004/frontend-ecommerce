@@ -18,6 +18,7 @@ import {FormsModule} from "@angular/forms";
 import {PaginationComponent} from "./page/shop/pagination/pagination.component";
 import { InfoCartComponent } from './page/cart/info-cart/info-cart.component';
 import { OrderComponent } from './page/cart/order/order.component';
+import { TreeViewComponent } from './page/product-detail/tree-view/tree-view.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { OrderComponent } from './page/cart/order/order.component';
     PaginationComponent,
     InfoCartComponent,
     OrderComponent,
+    TreeViewComponent
   ],
   imports: [
     BrowserModule,

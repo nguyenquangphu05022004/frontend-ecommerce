@@ -32,7 +32,7 @@ const routes: Routes = [
     component: RegisterComponent
   },
   {
-    path: "product/:id/:slug",
+    path: "product/:id",
     component: ProductDetailComponent
   },
   {

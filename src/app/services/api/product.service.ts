@@ -27,4 +27,8 @@ export class ProductService {
     return this.httpClient.post<APIListResponse<Product>>(this.url + "/search", filter);
   }
 
+  getProductById(id: number) {
+    return this.httpClient.get<APIResponse<Product>>(`${this.url}/${id}`);
+  }
+
 }

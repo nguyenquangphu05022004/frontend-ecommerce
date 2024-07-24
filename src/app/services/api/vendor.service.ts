@@ -1,6 +1,10 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {VendorRequest} from "./model/input.model";
+import {Coupon} from "./model/object.model";
+import {APIResponse} from "./model/output.model";
+import {environment} from "../../../environment/enviroment";
+
 
 
 @Injectable({
@@ -19,6 +23,11 @@ export class VendorService {
   userFollowVendor(vendorId: number) {
     const url = `${this.url}/follow/${vendorId}`;
     return this.httpClient.put(url, null);
+  }
+
+  findCouponByVendorIdAndCouponCode(vendorId: number | undefined, couponCode: string) {
+    const url = `${environment.REST_API_SERVER}/users/vendors/coupons/${vendorId}?couponCode=${couponCode}`
+    return this.httpClient.get<APIResponse<Coupon>>(url)
   }
 
 }
