@@ -32,3 +32,9 @@ export interface APIResponse<T> {
   status?: any
   data?: T
 }
+
+export interface Token {
+  token: string;
+  expiredAt: number;
+  refreshToken: string
+}

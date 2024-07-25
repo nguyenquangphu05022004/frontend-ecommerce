@@ -45,7 +45,7 @@
             class="nav-item nav-link text-dark " style="font-size: 22px">Lien He Bán Hàng</a>
         </div>
         <!-- Navbar -->
-        <ul  class="navbar-nav d-flex flex-row me-1">
+        <ul *ngIf="!tokenService.isExpired()" class="navbar-nav d-flex flex-row me-1">
           <li class="nav-item me-3 me-lg-0">
             <div class="dropdown">
               <a data-mdb-dropdown-init class="me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink"
@@ -98,19 +98,19 @@
               document.getElementById("basket").innerHTML = cookieValue;
             </script>
           </a>
-          <a
+          <a *ngIf="tokenService.isExpired()"
             routerLink="/login"
             class="position-relative me-4 my-auto"
             title="Đăng nhập"
             style="color: black;font-weight: bold"
           >Đăng nhập</a>
-          <a
+          <a *ngIf="tokenService.isExpired()"
             class="position-relative me-4 my-auto"
             title="Đăng ký"
             style="color: black; font-weight: bold"
             routerLink="/register"
           >Đăng ký</a>
-          <div  class="nav-item dropdown">
+          <div *ngIf="!tokenService.isExpired()"  class="nav-item dropdown">
             <a href="#" style="color: #000; font-size: 18px"
                class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
             >

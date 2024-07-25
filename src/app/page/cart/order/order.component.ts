@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
-import {APIListResponse, APIResponse, ItemResponse, VendorCartResponse} from "../../../services/api/model/output.model";
+import {APIResponse, ItemResponse, VendorCartResponse} from "../../../services/api/model/output.model";
 import {Common} from "../../../../environment/common";
 import {Coupon, Status} from "../../../services/api/model/object.model";
 import {VendorService} from "../../../services/api/vendor.service";
