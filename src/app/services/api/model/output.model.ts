@@ -10,6 +10,7 @@ export class ItemResponse {
   stock?: Stock
   quantity?: number
   createAt?: any
+  stockClassificationId?: number
 }
 export class ShoppingCartResponse {
   vendors?: Array<VendorCartResponse>
@@ -36,5 +37,6 @@ export interface APIResponse<T> {
 export interface Token {
   token: string;
   expiredAt: number;
-  refreshToken: string
+  refreshToken: string,
+  fullName: string
 }

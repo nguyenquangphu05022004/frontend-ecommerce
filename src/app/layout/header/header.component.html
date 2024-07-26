@@ -45,7 +45,7 @@
             class="nav-item nav-link text-dark " style="font-size: 22px">Lien He Bán Hàng</a>
         </div>
         <!-- Navbar -->
-        <ul *ngIf="!tokenService.isExpired()" class="navbar-nav d-flex flex-row me-1">
+        <ul *ngIf="!TokenService.isExpired()" class="navbar-nav d-flex flex-row me-1">
           <li class="nav-item me-3 me-lg-0">
             <div class="dropdown">
               <a data-mdb-dropdown-init class="me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink"
@@ -72,6 +72,7 @@
         <!-- Navbar -->
         <div class="d-flex m-3 me-0">
           <a
+            href="/cart"
             class="position-relative me-4 my-auto"
             title="Giỏ hàng"
           >
@@ -79,42 +80,25 @@
             <span class="position-absolute bg-secondary
                         rounded-circle d-flex align-items-center justify-content-center text-dark px-1"
                   id="basket"
-                  style="top: -5px; left: 15px; height: 20px; min-width: 20px;"></span>
-            <script>
-              let cookieValue = "0";
-              let name = 'basket' + "=";
-              let decodedCookie = decodeURIComponent(document.cookie);
-              let ca = decodedCookie.split(';');
-              for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) == ' ') {
-                  c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                  cookieValue = c.substring(name.length, c.length);
-                  break;
-                }
-              }
-              document.getElementById("basket").innerHTML = cookieValue;
-            </script>
+                  style="top: -5px; left: 15px; height: 20px; min-width: 20px;">6</span>
           </a>
-          <a *ngIf="tokenService.isExpired()"
+          <a *ngIf="TokenService.isExpired()"
             routerLink="/login"
             class="position-relative me-4 my-auto"
             title="Đăng nhập"
             style="color: black;font-weight: bold"
           >Đăng nhập</a>
-          <a *ngIf="tokenService.isExpired()"
+          <a *ngIf="TokenService.isExpired()"
             class="position-relative me-4 my-auto"
             title="Đăng ký"
             style="color: black; font-weight: bold"
             routerLink="/register"
           >Đăng ký</a>
-          <div *ngIf="!tokenService.isExpired()"  class="nav-item dropdown">
+          <div *ngIf="!TokenService.isExpired()"  class="nav-item dropdown">
             <a href="#" style="color: #000; font-size: 18px"
                class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
             >
-              <span id="authen_username"  style="font-size: 22px"></span>
+              <span id="authen_username"  style="font-size: 22px">{{TokenService.getTokenObject().fullName}}</span>
             </a>
             <div class="dropdown-menu m-0 bg-secondary rounded-0">
               <a  style="color: #000; font-size: 18px" class="dropdown-item">Thông

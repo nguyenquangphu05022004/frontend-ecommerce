@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Order, OrderStatus} from "./model/object.model";
+import {OrderStatus} from "./model/object.model";
+import {OrderRequest} from "./model/order";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class OrderService {
 
 
 
-  createOrder(order: Order) {
+  createOrder(order: OrderRequest) {
     return this.httpClient.post(this.url, order);
   }
 

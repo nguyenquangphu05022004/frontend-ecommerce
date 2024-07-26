@@ -10,14 +10,25 @@
           </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let itemResponse of vendorCartResponse.itemResponses; let i = index" class="hidden-scroll">
+        <tr *ngFor="let itemResponse of vendorCartResponse.itemResponses; let indexItem = index" class="hidden-scroll">
           <td style="width: 40%" colspan="8">
             <input type="checkbox" class="check-box" (click)="selectItem($event)"
-                   value="{{itemResponse.stock?.id}}"
-                   [checked]="keyCheck.has(keyVendor + keyStock + itemResponse.stock?.id) ? keyCheck.get(keyVendor + keyStock + itemResponse.stock?.id) : false" >
-             <img src="{{itemResponse.stock?.imageUrls?.at(0)}}" width="130px">{{itemResponse.stock?.product?.name}}
+                   value="{{itemResponse.stock?.id + '_' + itemResponse.stockClassificationId}}"
+                   [checked]="keyCheck.has(keyVendor + keyStock + itemResponse.stock?.id + '_' + itemResponse.stockClassificationId) ? keyCheck.get(keyVendor + keyStock + itemResponse.stock?.id + '_' + itemResponse.stockClassificationId) : false" >
+            <div class="d-flex flex-wrap">
+              <img src="{{itemResponse.stock?.imageUrls?.at(0)}}" width="110px">
+              <p class="m-lg-4" style="width: 30%">{{itemResponse.stock?.product?.name}}</p>
+              <select style="width: 15%; height: 50%;transform: translateY(100%)">
+                <option
+                  *ngFor="let stockClassification of itemResponse.stock?.stockClassifications"
+                  [selected]="itemResponse.stockClassificationId === stockClassification.id"
+                >
+                  {{stockClassification.sizeName}}
+                </option>
+              </select>
+            </div>
           </td>
-          <td style="width: 10%" colspan="1" class="price">{{itemResponse.stock?.price}}</td>
+          <td style="width: 10%;" colspan="1" class="price">{{itemResponse.stock?.price}}</td>
           <td style="width: 20%" colspan="1">
             <div class="input-group quantity mt-4" style="width: 100px;">
               <div class="input-group-btn">

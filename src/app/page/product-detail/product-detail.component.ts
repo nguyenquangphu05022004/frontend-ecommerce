@@ -1,9 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ProductService} from "../../services/api/product.service";
 import {APIResponse} from "../../services/api/model/output.model";
 import {Category, Product, Stock} from "../../services/api/model/object.model";
 import {CategoryService} from "../../services/api/category.service";
+import {CartService} from "../../services/api/cart.service";
+import {CartRequest} from "../../services/api/model/input.model";
+import {Token} from "@angular/compiler";
+import {TokenService} from "../../services/token.service";
 
 // @ts-ignore
 @Component({
@@ -17,14 +21,15 @@ export class ProductDetailComponent implements OnInit{
   categories: Array<Category> = new Array<Category>()
   imagesUrl: Array<String> = new Array<String>()
   indexImageUrl: number = 0
-
   defaultStock: Stock | undefined =  {}
   stockClassificationId: number | undefined;
   quantityProduct: number = 1;
   constructor(
     private activedRoute: ActivatedRoute,
     private productService: ProductService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private cartService: CartService,
+    private router: Router
   ) {
   }
 
@@ -67,12 +72,29 @@ export class ProductDetailComponent implements OnInit{
   }
 
   buyProduct() {
-    const cartRequest = {
-      stockId: this.defaultStock?.id,
+    if(TokenService.isExpired()) {
+      window.location.href = "/login"
+    }
+    console.log("Token: ",TokenService.isExpired())
+    const cartRequest: CartRequest = {
+      stockId: this.stockClassificationId,
       quantity: this.quantityProduct,
+      operation: '+',
       stockClassificationId: this.stockClassificationId
     }
-    console.log(cartRequest)
+   this.observableAddProduct().subscribe({
+     next: () => {
+       this.router.navigateByUrl("/cart", {
+         state: {
+           "itemOrder": cartRequest
+         }
+       })
+     },
+     error: (err) => {
+       alert("Error")
+       console.log(err)
+     }
+   })
   }
 
   increaseQuantity() {
@@ -83,5 +105,26 @@ export class ProductDetailComponent implements OnInit{
     if(this.quantityProduct > 1) {
       this.quantityProduct = this.quantityProduct - 1;
     }
+  }
+
+
+  addProductIntoCart() {
+    return this.observableAddProduct().subscribe({
+      next: (operation) => {
+        alert("You add a product into cart")
+      },
+      error: () => {
+        alert("Error when add product into cart")
+      }
+    })
+  }
+
+  private observableAddProduct() {
+    return this.cartService.addProductIntoCart({
+      stockId: this.stockClassificationId,
+      quantity: this.quantityProduct,
+      operation: '+',
+      stockClassificationId: this.stockClassificationId
+    });
   }
 }

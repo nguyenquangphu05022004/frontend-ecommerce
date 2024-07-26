@@ -141,6 +141,7 @@
                      class="form-check-input bg-primary border-0"
                      id="delivery1"
                      name="delivery"
+                     [(ngModel)]="payment"
                      value="PAY_AT_HOME">
               <label class="form-check-label" for="delivery1">At home</label>
             </div>
@@ -153,13 +154,15 @@
                      class="form-check-input bg-primary border-0"
                      id="delivery2"
                      name="delivery"
+                     [(ngModel)]="payment"
                      value="PAY_BY_BANK">
               <label class="form-check-label" for="delivery2">Over banking</label>
             </div>
           </div>
         </div>
         <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-          <a href="##"
+          <a href="javascript:(0)"
+             (click)="order()"
              class="btn border-secondary py-3 px-4 text-uppercase w-100 text-primary"
           >Order</a>
         </div>

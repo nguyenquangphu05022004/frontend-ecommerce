@@ -2,8 +2,10 @@ import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {APIResponse, ItemResponse, VendorCartResponse} from "../../../services/api/model/output.model";
 import {Common} from "../../../../environment/common";
-import {Coupon, Status} from "../../../services/api/model/object.model";
+import {Coupon, LineItem, Status, UserContactDetails} from "../../../services/api/model/object.model";
 import {VendorService} from "../../../services/api/vendor.service";
+import {ItemRequest, LineItemRequest, OrderRequest} from "../../../services/api/model/order";
+import {OrderService} from "../../../services/api/order.service";
 
 @Component({
   selector: 'app-order',
@@ -15,10 +17,13 @@ export class OrderComponent {
   vendorCartResponses: Array<VendorCartResponse> = new Array<VendorCartResponse>();
   couponCode : string = "";
   listMapCouponResponse: Map<number, APIResponse<Coupon>> = new Map<number, APIResponse<Coupon>>()
+  payment: any;
+  userContactDetails: UserContactDetails = {}
 //1c902295-5d01-467e-bb60-70e6c5616784
   constructor(
     private router: Router,
-    private vendorService: VendorService
+    private vendorService: VendorService,
+    private orderService: OrderService
   ) {
 
     //@ts-ignore
@@ -106,6 +111,41 @@ export class OrderComponent {
             this.listMapCouponResponse.set(vendorId, apiResponse);
           }
         },
+      })
+  }
+
+  order() {
+    const orderRequest: OrderRequest = {
+      lineItems: new Array<LineItemRequest>(),
+      payment: this.payment,
+      userContactDetails: this.userContactDetails
+    }
+    this.vendorCartResponses.forEach(vendor => {
+      // @ts-ignore
+      const apiResponse: APIResponse<Coupon> = this.listMapCouponResponse.get(vendor.id)
+      const lineItem : LineItemRequest = {
+        itemsRequest: new Array<ItemRequest>(),
+        vendorId: vendor.id,
+        couponId: apiResponse.data?.id
+      }
+      vendor.itemResponses?.forEach(item => {
+        lineItem.itemsRequest?.push({
+          quantity: item.quantity,
+          stockClassificationId: item.stockClassificationId,
+          stockId: item.stock?.id
+        })
+      })
+      orderRequest.lineItems?.push(lineItem)
+    })
+    this.orderService.createOrder(orderRequest)
+      .subscribe({
+        next: () => {
+          this.router.navigateByUrl("/user/orders")
+        },
+        error: (err) => {
+          alert("Error")
+          console.log(err)
+        }
       })
   }
 }

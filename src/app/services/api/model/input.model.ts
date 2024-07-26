@@ -1,5 +1,4 @@
-import {Role, SortProductType} from "./object.model";
-
+import {LineItem, Payment, Role, SortProductType, Stock, StockClassification, UserContactDetails} from "./object.model";
 
 export interface FilterInputRequestProduct {
   limit?: number,

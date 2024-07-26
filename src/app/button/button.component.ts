@@ -17,7 +17,6 @@ export class ButtonComponent {
 
       constructor(
         private authService: AuthService,
-        private tokenService: TokenService,
         private router: Router
       ) {
       }
@@ -26,7 +25,7 @@ export class ButtonComponent {
         this.authService.logout()
           .subscribe({
             next: () => {
-              this.tokenService.setToken(undefined)
+              TokenService.setToken(undefined)
               this.router.navigateByUrl("/login")
             }
           })
@@ -38,8 +37,8 @@ export class ButtonComponent {
           .subscribe({
             next: (apiResponse) => {
               if(apiResponse.status === Status.SUCCESS ){
-                alert("Username and password invalid")
-                this.tokenService.setToken(apiResponse.data);
+                TokenService.setToken(apiResponse.data);
+                localStorage.setItem('isExpired', "1")
                 this.router.navigateByUrl("/home")
               } else {
                 alert("Username and password invalid")

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {TokenService} from "../../services/token.service";
 
 @Component({
@@ -7,8 +7,5 @@ import {TokenService} from "../../services/token.service";
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-
-  constructor(protected tokenService: TokenService) {
-  }
-
+  protected readonly TokenService = TokenService;
 }
