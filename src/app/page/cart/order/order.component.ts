@@ -114,9 +114,30 @@ export class OrderComponent {
       })
   }
 
+  /**
+   * {
+   *     "userContactDetails": {
+   *         "fullName": "12"
+   *     },
+   *     "lineItemRequests": [
+   *         {
+   *             "couponId": "1",
+   *             "vendorId": 1,
+   *             "itemRequests": [
+   *                 {
+   *                     "stockId": 1,
+   *                     "classificationId": 1,
+   *                     "quantity": 2
+   *                 }
+   *             ]
+   *         }
+   *     ],
+   *     "payment": "PAY_BY_BANK"
+   * }
+   */
   order() {
     const orderRequest: OrderRequest = {
-      lineItems: new Array<LineItemRequest>(),
+      lineItemRequests: new Array<LineItemRequest>(),
       payment: this.payment,
       userContactDetails: this.userContactDetails
     }
@@ -124,22 +145,27 @@ export class OrderComponent {
       // @ts-ignore
       const apiResponse: APIResponse<Coupon> = this.listMapCouponResponse.get(vendor.id)
       const lineItem : LineItemRequest = {
-        itemsRequest: new Array<ItemRequest>(),
-        vendorId: vendor.id,
-        couponId: apiResponse.data?.id
+        itemRequests: new Array<ItemRequest>(),
+        vendorId: vendor.id
+      }
+      if(apiResponse !== undefined) {
+        lineItem.couponId = apiResponse.data?.id
       }
       vendor.itemResponses?.forEach(item => {
-        lineItem.itemsRequest?.push({
+        lineItem.itemRequests?.push({
           quantity: item.quantity,
-          stockClassificationId: item.stockClassificationId,
+          classificationId: item.stockClassificationId,
           stockId: item.stock?.id
         })
       })
-      orderRequest.lineItems?.push(lineItem)
+      orderRequest.lineItemRequests?.push(lineItem)
     })
+    console.log(orderRequest)
     this.orderService.createOrder(orderRequest)
       .subscribe({
-        next: () => {
+        next: (response) => {
+          console.log(response)
+          alert("Order successfully")
           this.router.navigateByUrl("/user/orders")
         },
         error: (err) => {
