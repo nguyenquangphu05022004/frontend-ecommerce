@@ -1,0 +1,34 @@
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel2">Theo doi</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">Shop Name</th>
+              <th scope="col">Cancel</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let vendor of vendors">
+              <th scope="row">{{vendor.shopName}}</th>
+              <th scope="row">
+                <button class="btn btn-primary"
+                        (click)="cancelFollow(vendor.id)"
+                >
+                  Cancel Follow
+                </button>
+              </th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

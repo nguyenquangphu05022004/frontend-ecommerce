@@ -1,0 +1,30 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Đánh giá</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">Tên sản phẩm</th>
+              <th scope="col">Nội dung</th>
+              <th scope="col">Đánh giá</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let evaluation of evaluations">
+              <th scope="row"><a href="/product/{{evaluation.product?.id}}">{{evaluation.product?.name}}</a>th>
+              <th scope="row">{{evaluation.content}}</th>
+              <th scope="row">{{evaluation.rating}}</th>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

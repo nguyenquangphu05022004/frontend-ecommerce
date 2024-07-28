@@ -30,4 +30,8 @@ export class VendorService {
     return this.httpClient.get<APIResponse<Coupon>>(url)
   }
 
+  cancelFollow(userId: number | undefined, vendorId: number | undefined) {
+    const url = `${environment.REST_API_SERVER}/users/vendors/follow?userId=${userId}&vendorId=${vendorId}`
+    return this.httpClient.delete(url);
+  }
 }

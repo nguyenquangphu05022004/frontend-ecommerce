@@ -1,6 +1,8 @@
 import {HttpClient} from "@angular/common/http";
 import {RegisterRequest} from "./model/input.model";
 import {Injectable} from "@angular/core";
+import {UserProfile} from "./model/UserProfile";
+import {APIResponse} from "./model/output.model";
 
 
 @Injectable({
@@ -20,5 +22,10 @@ export class UserService {
   uploadUserAvatar(formData: FormData) {
     const url = `${this.url}/avatar`;
     return this.httpClient.post(url, formData);
+  }
+
+  getInfoUser() {
+    const url = `${this.url}/info`
+    return this.httpClient.get<APIResponse<UserProfile>>(url)
   }
 }

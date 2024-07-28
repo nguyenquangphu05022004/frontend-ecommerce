@@ -20,6 +20,10 @@ import { InfoCartComponent } from './page/cart/info-cart/info-cart.component';
 import { OrderComponent } from './page/cart/order/order.component';
 import { TreeViewComponent } from './page/product-detail/tree-view/tree-view.component';
 import { ButtonComponent } from './button/button.component';
+import { ProfileComponent } from './profile/profile.component';
+import { EvaluationComponent } from './profile/evaluation/evaluation.component';
+import { OrderPlaceComponent } from './profile/order-place/order-place.component';
+import { UserFollowVendorComponent } from './profile/user-follow-vendor/user-follow-vendor.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +41,11 @@ import { ButtonComponent } from './button/button.component';
     InfoCartComponent,
     OrderComponent,
     TreeViewComponent,
-    ButtonComponent
+    ButtonComponent,
+    ProfileComponent,
+    EvaluationComponent,
+    OrderPlaceComponent,
+    UserFollowVendorComponent
   ],
   imports: [
     BrowserModule,
