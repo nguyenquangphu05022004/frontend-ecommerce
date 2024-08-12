@@ -1,26 +1,53 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {AuthenRequest, RegisterRequest} from "./model/input.model";
 import {environment} from "../../../environment/enviroment";
-import {APIResponse, Token} from "./model/output.model";
+import {AuthRequest} from "./model/request/AuthRequest";
+import {AuthenResponse} from "./model/response/AuthenResponse";
+import {RegisterRequest} from "./model/request/RegisterRequest";
+import {APIResponse} from "./model/response/APIResponse";
+import {PasswordChangeRequest} from "./model/request/PasswordChangeRequest";
 
 @Injectable({
   providedIn:"root"
 })
 export class AuthService {
 
+  private url: string = environment.REST_API_SERVER;
+
   constructor(private httpClient: HttpClient) {
   }
 
-  logout() {
-    return this.httpClient.get(`${environment.REST_API_SERVER}/auth/logout`)
+  authenticate(authenRequest: AuthRequest) {
+    return this.httpClient.post<APIResponse<AuthenResponse>>(
+      `${this.url}/auth/login`, authenRequest
+    );
+  }
+  register(request: RegisterRequest) {
+    return this.httpClient.post<APIResponse<any>>(
+      `${this.url}/auth/register`,
+      request
+    )
+  }
+  forgetPassword(username: string) {
+    return this.httpClient.post<APIResponse<any>>(
+      `${this.url}/auth/forget-password`,
+      username
+    )
+  }
+  forgetPasswordVerifyCode(code: string) {
+    return this.httpClient.post<APIResponse<any>>(
+      `${this.url}/auth/forget-password-verify-code`,
+      code
+    )
+  }
+  changePassword(request: PasswordChangeRequest) {
+    return this.httpClient.post<APIResponse<any>>(
+      `${this.url}/auth/password-change`,
+      request
+    )
   }
 
-  authenticate(authRequest: AuthenRequest) {
-    return this.httpClient.post<APIResponse<Token>>(`${environment.REST_API_SERVER}/auth/login`, authRequest);
-  }
 
-  registerAccount(register: RegisterRequest) {
-    return this.httpClient.post<APIResponse<any>>(`${environment.REST_API_SERVER}/auth/register`, register);
-  }
+
+
 }

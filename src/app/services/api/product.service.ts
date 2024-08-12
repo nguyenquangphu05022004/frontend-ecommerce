@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Product} from "./model/object.model";
-import {Observable} from "rxjs";
-import {FilterInputRequestProduct} from "./model/input.model";
 import {environment} from "../../../environment/enviroment";
-import {APIListResponse, APIResponse} from "./model/output.model";
+import {ProductRequest} from "./model/request/ProductRequest";
+import {FilterProductRequest} from "./model/request/FilterProductRequest";
+import {InventoryRequest} from "./model/request/InventoryRequest";
+import {ProductDetailsViewModel} from "./model/view/ProductDetailsViewModel";
+import {ProductGalleryModelView} from "./model/view/ProductGalleryModelView";
+import {APIResponse} from "./model/response/APIResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -15,20 +17,33 @@ export class ProductService {
 
   constructor(private httpClient: HttpClient) { }
 
-
-  createProduct(product: Product) {
-    return this.httpClient.post<Product>(this.url, product)
+  createProduct(request: ProductRequest) {
+    return this.httpClient.post<APIResponse<any>>(
+      this.url,
+      request
+    )
+  }
+  getProductById(id: number, slug: string) {
+    return this.httpClient.get<APIResponse<ProductDetailsViewModel>>(
+      `${this.url}/${id}/${slug}`
+    );
+  }
+  getAllProductRecommendation(id: number) {
+    return this.httpClient.get<APIResponse<ProductGalleryModelView>>(
+      `${this.url}/${id}/recommendation`
+    )
   }
 
-  getAllProduct(filter: FilterInputRequestProduct | undefined | null) {
-    if(filter === null || filter === undefined) {
-      return this.httpClient.get<APIListResponse<Product>>(this.url);
-    }
-    return this.httpClient.post<APIListResponse<Product>>(this.url + "/search", filter);
+  getAllProduct(filter: FilterProductRequest) {
+    return this.httpClient.post<APIResponse<ProductGalleryModelView>>(
+      `${this.url}/search`,
+      filter
+    )
   }
-
-  getProductById(id: number) {
-    return this.httpClient.get<APIResponse<Product>>(`${this.url}/${id}`);
+  getInventoryAttributeKey(request: InventoryRequest) {
+    return this.httpClient.post(
+      `${this.url}/inventories`,
+      request
+    )
   }
-
 }
