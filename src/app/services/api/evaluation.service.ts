@@ -1,25 +1,22 @@
 import {Injectable} from "@angular/core";
 import {environment} from "../../../environment/enviroment";
 import {HttpClient} from "@angular/common/http";
-import {APIListResponse} from "./model/output.model";
-import {Evaluation} from "./model/object.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EvaluationService {
 
-  private url : string = environment.REST_API_SERVER
+  private url : string = environment.REST_API_SERVER + "/products/evaluations"
 
   constructor(private client: HttpClient) {
   }
 
-  getAllEvaluationByProductId(productId: number | undefined) {
-    return this.client.get<APIListResponse<Evaluation>>(`${this.url}/evaluations/product/${productId}`);
+  createEvaluation(formData: FormData) {
+    return this.client.post(this.url, formData);
   }
-
-  getAllEvaluationByUserId(userId: number | undefined) {
-    return this.client.get<APIListResponse<Evaluation>>(`${this.url}/evaluations/user/${userId}`);
+  deleteById(id: number) {
+    return this.client.delete(`${this.url}/${id}`)
   }
 
 

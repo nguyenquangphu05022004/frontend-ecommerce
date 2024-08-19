@@ -1,6 +1,6 @@
-import {Component, Input} from '@angular/core';
-import {AuthenRequest} from "../../services/api/model/input.model";
-import {Router} from "@angular/router";
+import {Component} from '@angular/core';
+import {AuthRequest} from "../../services/api/model/request/AuthRequest";
+import {AuthService} from "../../services/api/auth.service";
 
 @Component({
   selector: 'app-login',
@@ -9,12 +9,23 @@ import {Router} from "@angular/router";
 })
 export class LoginComponent {
 
-    authenRequest: AuthenRequest = {}
+    authenRequest: AuthRequest = {}
     messageResponse: any;
 
 
-    getMessageLogin(message: any) {
-      this.messageResponse = message;
+    constructor(private authService: AuthService) {
     }
 
+
+  login() {
+    this.authService.authenticate(this.authenRequest)
+      .subscribe({
+        next: response => {
+          localStorage.setItem("jwt", JSON.stringify(response.data))
+        },
+        error: error => {
+          console.log("login error: ", error)
+        }
+      })
+  }
 }

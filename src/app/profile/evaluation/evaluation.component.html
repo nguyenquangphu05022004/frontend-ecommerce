@@ -17,7 +17,7 @@
             </thead>
             <tbody>
             <tr *ngFor="let evaluation of evaluations">
-              <th scope="row"><a href="/product/{{evaluation.product?.id}}">{{evaluation.product?.name}}</a>th>
+              <th scope="row"><a href="/product/{{evaluation?.product.id}}/{{evaluation?.product.slug}}">{{evaluation.product?.name}}</a>th>
               <th scope="row">{{evaluation.content}}</th>
               <th scope="row">{{evaluation.rating}}</th>
             </tr>

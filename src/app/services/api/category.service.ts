@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Category} from "./model/object.model";
 import {environment} from "../../../environment/enviroment";
+import {CategoryModelView} from "./model/view/CategoryModelView";
+import {APIListResponse} from "./model/response/APIListResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +17,14 @@ export class CategoryService {
       return this.httpClient.post(this.url, formPart);
   }
 
-  getAllCategory() {
-    return this.httpClient.get<Array<Category>>(this.url);
+  getAllCategoryParent(page: number | null , limit: number | null) {
+    const attrs = [];
+    if(page != null) attrs.push(`page=${page}`)
+    if(limit != null) attrs.push(`limit=${limit}`);
+    const path = attrs.length != 0 ? `?${attrs.join("&")}` : '';
+    return this.httpClient.get<APIListResponse<any>>(`${this.url}${path}`)
   }
 
-  getById(categoryId: number) {
-    const url = `${this.url}/${categoryId}`
-    return this.httpClient.get<Array<Category>>(url)
-  }
 
 
 }

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {OrderModelView} from "../../services/api/model/view/OrderModelView";
 
 @Component({
   selector: 'app-order-place',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class OrderPlaceComponent {
 
+  @Input()
+  orders?: Array<OrderModelView> = new Array<OrderModelView>()
 }

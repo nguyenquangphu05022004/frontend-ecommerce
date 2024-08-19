@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Category} from "../../../services/api/model/object.model";
+import {Component, Input} from '@angular/core';
 import {Router} from "@angular/router";
+import {CategoryModelView} from "../../../services/api/model/view/CategoryModelView";
 
 declare var $: any;
 @Component({
@@ -11,7 +11,7 @@ declare var $: any;
 export class TreeViewComponent{
 
   @Input()
-  categories: Array<Category> = new Array<Category>();
+  categories: Array<CategoryModelView> = new Array<CategoryModelView>();
 
   constructor(private router: Router) {
   }

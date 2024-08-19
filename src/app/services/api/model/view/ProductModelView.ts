@@ -11,5 +11,5 @@ export interface ProductModelView {
   imageUrl: string;
   slug: string;
   vendor: VendorModelView;
-
+  id: number;
 }

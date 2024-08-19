@@ -1,13 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductService} from "../../services/api/product.service";
-import {APIResponse} from "../../services/api/model/output.model";
-import {Category, Product, Stock} from "../../services/api/model/object.model";
 import {CategoryService} from "../../services/api/category.service";
 import {CartService} from "../../services/api/cart.service";
-import {CartRequest} from "../../services/api/model/input.model";
-import {Token} from "@angular/compiler";
-import {TokenService} from "../../services/token.service";
+import {CategoryModelView} from "../../services/api/model/view/CategoryModelView";
+import {ProductDetailsViewModel} from "../../services/api/model/view/ProductDetailsViewModel";
+import {CartRequest} from "../../services/api/model/request/CartRequest";
+import {ProductInventoryModelView} from "../../services/api/model/view/ProductInventoryModelView";
+import {AttributeKey} from "../../services/api/model/view/AttributeKey";
+import {Utils} from "../../services/utils";
 
 // @ts-ignore
 @Component({
@@ -15,15 +16,14 @@ import {TokenService} from "../../services/token.service";
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.css']
 })
-export class ProductDetailComponent implements OnInit{
+export class ProductDetailComponent implements OnInit {
 
-  productResponseAPI: APIResponse<Product> = {}
-  categories: Array<Category> = new Array<Category>()
-  imagesUrl: Array<String> = new Array<String>()
-  indexImageUrl: number = 0
-  defaultStock: Stock | undefined =  {}
-  stockClassificationId: number | undefined;
-  quantityProduct: number = 1;
+  attributeKeys : Array<AttributeKey> = new Array<AttributeKey>()
+  productInventory?: ProductInventoryModelView
+  categories: Array<CategoryModelView> = new Array<CategoryModelView>();
+  product?: ProductDetailsViewModel
+  cartRequest: CartRequest = new CartRequest()
+  imageUrl? : string ;
   constructor(
     private activedRoute: ActivatedRoute,
     private productService: ProductService,
@@ -34,97 +34,89 @@ export class ProductDetailComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    const productId = this.activedRoute.snapshot.params["id"]
-    this.productService.getProductById(productId)
-      .subscribe({
-        next: (responseAPI) => {
-          this.productResponseAPI = responseAPI
-          this.defaultStock = this.productResponseAPI.data?.stocks?.at(0);
-          this.stockClassificationId = this.defaultStock?.stockClassifications?.at(0)?.id
-          this.productResponseAPI.data?.stocks?.forEach(stock => {
-            stock.imageUrls?.forEach(imageUrl => {
-              this.imagesUrl.push(imageUrl)
-            })
-          })
-          console.log(this.productResponseAPI)
-        },
-        error: (err) => console.error(err)
-      })
-
-    this.categoryService.getAllCategory()
+    const productId: string = this.activedRoute.snapshot.params["id"]
+    const productSlug: string = this.activedRoute.snapshot.params["slug"]
+    this.productService.getProductById(productId, productSlug)
       .subscribe({
         next: (response) => {
-          this.categories = response;
-        },
-        error: (err) => console.log(err)
+          if (response.status === 200) {
+            this.product = response.data;
+          } else {
+            alert("Product not found")
+          }
+        }
       })
-    }
-
-
-  changeImage(i: number) {
-    this.indexImageUrl = i;
-  }
-
-
-  changeDefaultStock(e: any) {
-    this.defaultStock = this.productResponseAPI.data?.stocks?.at(e.target.value);
-    this.stockClassificationId = this.defaultStock?.stockClassifications?.at(0)?.id
+    this.productService.getAllAttributeKey()
+      .subscribe({
+        next: response => {
+          if(response.status == 200) {
+            this.attributeKeys = response.data;
+          }
+        }
+      })
+    this.categoryService.getAllCategoryParent(null, null)
+      .subscribe({
+        next: (response) => {
+          if (response.status === 200) {
+            this.categories = response.data;
+          } else {
+            alert("get categories error")
+          }
+        }
+      })
+    this.imageUrl = this.product?.imageUrl;
   }
 
   buyProduct() {
-    if(TokenService.isExpired()) {
+    if (Utils.isTokenExpired()) {
       window.location.href = "/login"
     }
-    console.log("Token: ",TokenService.isExpired())
-    const cartRequest: CartRequest = {
-      stockId: this.stockClassificationId,
-      quantity: this.quantityProduct,
-      operation: '+',
-      stockClassificationId: this.stockClassificationId
-    }
-   this.observableAddProduct().subscribe({
-     next: () => {
-       this.router.navigateByUrl("/cart", {
-         state: {
-           "itemOrder": cartRequest
-         }
-       })
-     },
-     error: (err) => {
-       alert("Error")
-       console.log(err)
-     }
-   })
+    this.observableAddProduct().subscribe({
+      next: (response) => {
+        if(response.status == 200) {
+          this.router.navigateByUrl("/cart", {
+            state: {
+              "itemOrder": this.cartRequest
+            }
+          })
+        }
+      },
+    })
   }
 
   increaseQuantity() {
-    this.quantityProduct = this.quantityProduct + 1;
+      this.cartRequest.quantity += 1;
   }
 
   decreaseQuantity() {
-    if(this.quantityProduct > 1) {
-      this.quantityProduct = this.quantityProduct - 1;
+    if (this.cartRequest.quantity > 1) {
+      this.cartRequest.quantity = this.cartRequest.quantity - 1;
     }
   }
 
 
   addProductIntoCart() {
-    return this.observableAddProduct().subscribe({
-      next: (operation) => {
-        alert("You add a product into cart")
-      },
-      error: () => {
-        alert("Error when add product into cart")
-      }
-    })
+    if(this.productInventory === undefined) {
+      alert("Please choose product before action")
+    } else {
+      this.observableAddProduct().subscribe({
+        next: (response) => {
+          if(response.status === 200) {
+            alert("You add a product into cart")
+          } else {
+            alert("Error add product into cart")
+          }
+        }
+      })
+    }
   }
 
   private observableAddProduct() {
-    return this.cartService.addProductIntoCart({
-      stockId: this.stockClassificationId,
-      quantity: this.quantityProduct,
-      operation: '+',
-      stockClassificationId: this.stockClassificationId
-    });
+    return this.cartService.addProduct(this.cartRequest);
+  }
+
+  changeImage(i: number) {
+    // @ts-ignore
+    this.imageUrl = this.product?.imageUrls?.at(i);
   }
 }

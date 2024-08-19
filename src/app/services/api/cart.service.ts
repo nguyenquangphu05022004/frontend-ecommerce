@@ -1,26 +1,28 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {CartRequest} from "./model/input.model";
-import {ShoppingCartResponse} from "./model/output.model";
 import {environment} from "../../../environment/enviroment";
+import {APIResponse} from "./model/response/APIResponse";
+import {APIListResponse} from "./model/response/APIListResponse";
+import {VendorCartModelView} from "./model/view/VendorCartModelView";
+import {CartRequest} from "./model/request/CartRequest";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
+  private url : string = environment.REST_API_SERVER + "/shopping-cart";
   constructor(private httpClient: HttpClient) { }
 
-  addProductIntoCart(request: CartRequest) {
-    const url = `${environment.REST_API_SERVER}/shopping-cart/products/stocks`
-    return this.httpClient.post(url, request);
+  addProduct(request: CartRequest) {
+    return this.httpClient.post<APIResponse<any>>(`${this.url}/products/inventories`, request);
   }
   getShoppingCart() {
-    const url = `${environment.REST_API_SERVER}/shopping-cart/products/stocks`
-    return this.httpClient.get<ShoppingCartResponse>(url);
+    return this.httpClient.get<APIListResponse<VendorCartModelView>>(
+      `${this.url}/products/inventories`
+    )
   }
 
-  deleteProduct(stockId: number, vendorId: number) {
-    const url = `${environment.REST_API_SERVER}/shopping-cart/products/stocks?stockId=${stockId}&vendorId=${vendorId}`
-    return this.httpClient.delete(url);
+  deleteProduct(inventoryId: number, vendorId: number) {
+    return this.httpClient.delete(`${this.url}/products/inventories?inventoryId=${inventoryId}&vendorId=${vendorId}`);
   }
 }

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {TokenService} from "../../services/token.service";
+import {Utils} from "../../services/utils";
 
 @Component({
   selector: 'app-header',
@@ -7,5 +7,5 @@ import {TokenService} from "../../services/token.service";
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  protected readonly TokenService = TokenService;
+  protected readonly Utils = Utils;
 }

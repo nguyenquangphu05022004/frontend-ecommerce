@@ -1,8 +1,7 @@
 import {HttpClient} from "@angular/common/http";
-import {RegisterRequest} from "./model/input.model";
 import {Injectable} from "@angular/core";
-import {UserProfile} from "./model/UserProfile";
-import {APIResponse} from "./model/output.model";
+import {environment} from "../../../environment/enviroment";
+import {APIResponse} from "./model/response/APIResponse";
 
 
 @Injectable({
@@ -10,22 +9,17 @@ import {APIResponse} from "./model/output.model";
 })
 export class UserService {
 
-  private url: string = "/users"
+  private url: string = environment.REST_API_SERVER + "/users";
 
   constructor(private httpClient: HttpClient) {
   }
-
-  registerAccount(register: RegisterRequest) {
-    return this.httpClient.post(this.url, register);
-  }
-
   uploadUserAvatar(formData: FormData) {
     const url = `${this.url}/avatar`;
-    return this.httpClient.post(url, formData);
+    return this.httpClient.post<APIResponse<any>>(url, formData);
   }
 
   getInfoUser() {
     const url = `${this.url}/info`
-    return this.httpClient.get<APIResponse<UserProfile>>(url)
+    return this.httpClient.get<APIResponse<any>>(url)
   }
 }

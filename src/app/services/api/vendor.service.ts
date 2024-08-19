@@ -1,9 +1,10 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {VendorRequest} from "./model/input.model";
-import {Coupon} from "./model/object.model";
-import {APIResponse} from "./model/output.model";
 import {environment} from "../../../environment/enviroment";
+import {VendorRequest} from "./model/request/VendorRequest";
+import {APIResponse} from "./model/response/APIResponse";
+import {CouponModelView} from "./model/view/CouponModelView";
+import {CouponRequest} from "./model/request/CouponRequest";
 
 
 
@@ -12,26 +13,28 @@ import {environment} from "../../../environment/enviroment";
 })
 export class VendorService {
 
-  private url: string = "/users/vendors"
+  private url: string = environment.REST_API_SERVER + "/users/vendors"
   constructor(private httpClient: HttpClient) {
   }
 
   createVendor(request: VendorRequest) {
-    return this.httpClient.post(this.url, request);
+    return this.httpClient.post<APIResponse<any>>(this.url, request);
   }
 
   userFollowVendor(vendorId: number) {
     const url = `${this.url}/follow/${vendorId}`;
-    return this.httpClient.put(url, null);
+    return this.httpClient.put<APIResponse<any>>(url, null);
   }
 
-  findCouponByVendorIdAndCouponCode(vendorId: number | undefined, couponCode: string) {
+  getCouponByVendorIdAndCouponCode(vendorId: number | undefined, couponCode: string) {
     const url = `${environment.REST_API_SERVER}/users/vendors/coupons/${vendorId}?couponCode=${couponCode}`
-    return this.httpClient.get<APIResponse<Coupon>>(url)
+    return this.httpClient.get<APIResponse<any>>(url)
   }
-
-  cancelFollow(userId: number | undefined, vendorId: number | undefined) {
-    const url = `${environment.REST_API_SERVER}/users/vendors/follow?userId=${userId}&vendorId=${vendorId}`
-    return this.httpClient.delete(url);
+  createCoupon(couponRequest: CouponRequest) {
+    return this.httpClient.post<APIResponse<any>>(`${this.url}/coupons`, couponRequest);
+  }
+  cancelFollow(vendorId: number | undefined) {
+    const url = `${environment.REST_API_SERVER}/users/vendors/follow?vendorId=${vendorId}`
+    return this.httpClient.delete<APIResponse<any>>(url);
   }
 }

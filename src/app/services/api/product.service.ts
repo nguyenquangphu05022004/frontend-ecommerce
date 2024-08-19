@@ -7,6 +7,7 @@ import {InventoryRequest} from "./model/request/InventoryRequest";
 import {ProductDetailsViewModel} from "./model/view/ProductDetailsViewModel";
 import {ProductGalleryModelView} from "./model/view/ProductGalleryModelView";
 import {APIResponse} from "./model/response/APIResponse";
+import {APIListResponse} from "./model/response/APIListResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -23,19 +24,19 @@ export class ProductService {
       request
     )
   }
-  getProductById(id: number, slug: string) {
-    return this.httpClient.get<APIResponse<ProductDetailsViewModel>>(
+  getProductById(id: string, slug: string) {
+    return this.httpClient.get<APIResponse<any>>(
       `${this.url}/${id}/${slug}`
     );
   }
   getAllProductRecommendation(id: number) {
-    return this.httpClient.get<APIResponse<ProductGalleryModelView>>(
+    return this.httpClient.get<APIResponse<any>>(
       `${this.url}/${id}/recommendation`
     )
   }
 
-  getAllProduct(filter: FilterProductRequest) {
-    return this.httpClient.post<APIResponse<ProductGalleryModelView>>(
+  getAllProduct(filter: FilterProductRequest | null) {
+    return this.httpClient.post<APIResponse<any>>(
       `${this.url}/search`,
       filter
     )
@@ -45,5 +46,8 @@ export class ProductService {
       `${this.url}/inventories`,
       request
     )
+  }
+  getAllAttributeKey() {
+    return this.httpClient.get<APIListResponse<any>>(this.url + "/attributes");
   }
 }

@@ -1,31 +1,28 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserService} from "../services/api/user.service";
-import {UserProfile} from "../services/api/model/UserProfile";
-import {APIResponse} from "../services/api/model/output.model";
-import {UserContactDetails} from "../services/api/model/object.model";
+import {UserModelView} from "../services/api/model/view/UserModelView";
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit{
 
-  userProfileResponse: APIResponse<UserProfile> = {}
-  userContactDetails: UserContactDetails = {}
+  user ?: UserModelView;
   constructor(private userService: UserService) {
   }
 
-  getInfoUser() {
+  ngOnInit(): void {
     this.userService.getInfoUser()
       .subscribe({
-        next: (res) => {
-          this.userProfileResponse = res;
-        },
-        error: (err) => {
-          console.log(err)
+        next: response => {
+          if(response.status === 200) {
+            this.user = response.data;
+          }
         }
       })
-  }
+        // throw new Error('Method not implemented.');
+    }
 
 }

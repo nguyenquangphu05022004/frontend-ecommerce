@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
-import {Evaluation} from "../../services/api/model/UserProfile";
+import {EvaluationSimpleModelView} from "../../services/api/model/view/EvaluationSimpleModelView";
+import {EvaluationProfileModelView} from "../../services/api/model/view/EvaluationProfileModelView";
 
 
 @Component({
@@ -9,5 +10,5 @@ import {Evaluation} from "../../services/api/model/UserProfile";
 })
 export class EvaluationComponent {
   @Input()
-  evaluations: Array<Evaluation> | undefined;
+  evaluations: Array<EvaluationProfileModelView> | undefined;
 }

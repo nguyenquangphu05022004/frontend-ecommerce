@@ -45,7 +45,7 @@
             class="nav-item nav-link text-dark " style="font-size: 22px">Lien He Bán Hàng</a>
         </div>
         <!-- Navbar -->
-        <ul *ngIf="!TokenService.isExpired()" class="navbar-nav d-flex flex-row me-1">
+        <ul *ngIf="!Utils.isTokenExpired()" class="navbar-nav d-flex flex-row me-1">
           <li class="nav-item me-3 me-lg-0">
             <div class="dropdown">
               <a data-mdb-dropdown-init class="me-3 dropdown-toggle hidden-arrow" href="#" id="navbarDropdownMenuLink"
@@ -82,23 +82,23 @@
                   id="basket"
                   style="top: -5px; left: 15px; height: 20px; min-width: 20px;">6</span>
           </a>
-          <a *ngIf="TokenService.isExpired()"
+          <a *ngIf="!Utils.isTokenExpired()"
             routerLink="/login"
             class="position-relative me-4 my-auto"
             title="Đăng nhập"
             style="color: black;font-weight: bold"
           >Đăng nhập</a>
-          <a *ngIf="TokenService.isExpired()"
+          <a *ngIf="!Utils.isTokenExpired()"
             class="position-relative me-4 my-auto"
             title="Đăng ký"
             style="color: black; font-weight: bold"
             routerLink="/register"
           >Đăng ký</a>
-          <div *ngIf="!TokenService.isExpired()"  class="nav-item dropdown">
+          <div *ngIf="!Utils.isTokenExpired()"  class="nav-item dropdown">
             <a href="#" style="color: #000; font-size: 18px"
                class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
             >
-              <span id="authen_username"  style="font-size: 22px">{{TokenService.getTokenObject().fullName}}</span>
+              <span id="authen_username"  style="font-size: 22px">{{Utils.getAuth().fullName}}</span>
             </a>
             <div class="dropdown-menu m-0 bg-secondary rounded-0">
               <a  style="color: #000; font-size: 18px" class="dropdown-item">Thông

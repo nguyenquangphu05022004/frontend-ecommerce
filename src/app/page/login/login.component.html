@@ -36,10 +36,7 @@
                 routerLink="/forget-password"
               >Quên mật khẩu</a>
             </div>
-            <app-button
-              [typeButton]= "{'key': 1, 'value': 'Dang nhap'}"
-              [requestAuthen]="authenRequest"
-            ></app-button>
+            <button class="btn btn-primary" (click)="login()">Login</button>
           <p class="text-center mb-0">Bạn chưa có tài khoản?
             <a
             routerLink="/register"

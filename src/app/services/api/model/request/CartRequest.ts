@@ -1,4 +1,4 @@
-export interface CartRequest {
-  inventoryId?: number,
-  quantity?: number
+export class CartRequest {
+  inventoryId?: number
+  quantity: number = 1;
 }

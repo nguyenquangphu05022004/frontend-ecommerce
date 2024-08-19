@@ -1,30 +1,35 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {OrderStatus} from "./model/object.model";
-import {OrderRequest} from "./model/order";
 import {environment} from "../../../environment/enviroment";
-import {Utils} from "../utils";
+import {APIListResponse} from "./model/response/APIListResponse";
+import {FilterOrderRequest} from "./model/request/FilterOrderRequest";
+import {OrderModelView} from "./model/view/OrderModelView";
+import {APIResponse} from "./model/response/APIResponse";
+import {OrderRequest} from "./model/request/OrderRequest";
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
+
+  private url : string = environment.REST_API_SERVER + "/orders";
+
   constructor(private httpClient: HttpClient) { }
 
 
 
   createOrder(order: OrderRequest) {
-    return this.httpClient.post(environment.REST_API_SERVER + "/orders", order, { 'headers': Utils.getHeader() });
+      return this.httpClient.post<APIListResponse<any>>(`${this.url}`, order);
   }
 
-  getAllOrderByCreatedByCustomer(orderStatus: OrderStatus) {
-    const url = `${environment.REST_API_SERVER}/orders"/customer?orderStatus=${orderStatus}`
-    return this.httpClient.get(url);
+  getAllOrderCreatedByCustomer(filterOrderRequest: FilterOrderRequest) {
+    return this.httpClient.post<APIListResponse<OrderModelView>>(`${this.url}/customer`, filterOrderRequest);
   }
 
   deleteOrderById(id: number) {
-    const url = `${environment.REST_API_SERVER}/orders/${id}`
-    return this.httpClient.delete(url);
+    return this.httpClient.delete<APIResponse<any>>(
+      `${this.url}/${id}`
+    )
   }
 
 

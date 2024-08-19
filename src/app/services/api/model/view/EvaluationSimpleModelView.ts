@@ -6,5 +6,5 @@ export interface EvaluationSimpleModelView {
   rating: number;
   evalParentId: number;
   imageUrls: Array<String>
-
+  content: string
 }
