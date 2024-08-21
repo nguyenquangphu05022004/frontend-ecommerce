@@ -16,6 +16,9 @@ export class Utils {
   public static isTokenExpired() {
     // @ts-ignore
     const authResponse: AuthenResponse = JSON.parse(localStorage.getItem("jwt"))
+    if(authResponse == null || authResponse === undefined) {
+      return true;
+    }
     return authResponse.expiredAt > Date.now()
   }
 }

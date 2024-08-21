@@ -9,7 +9,7 @@
 
         <div class="text-center">
           <img
-            [src]="user?.userImage || 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png'"
+            [src]="user.userImage || 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png'"
                class="avatar img-circle img-thumbnail"
                alt="avatar">
           <img
@@ -54,7 +54,7 @@
                 <div class="col-xs-6">
                   <label for="first_name"><h5>Họ và tên</h5></label>
                   <input type="text" class="form-control" name="fullName"
-                         [(ngModel)]="user?.fullName"
+                         [(ngModel)]="user.fullName"
                          id="first_name"
                          placeholder="first name" title="enter your first name if any.">
                 </div>
@@ -97,13 +97,13 @@
       </div>
       <!-- Modal evaluations-->
       <app-evaluation
-        [evaluations] = "user?.evaluations"
+        [evaluations] = "user.evaluations"
       ></app-evaluation>
       <app-order-place
-        [orders] = "user?.orders"
+        [orders] = "user.orders"
       ></app-order-place>
       <app-user-follow-vendor
-        [vendors] = "user?.vendors"
+        [vendors] = "user.vendors"
       ></app-user-follow-vendor>
     </div>
   </div>

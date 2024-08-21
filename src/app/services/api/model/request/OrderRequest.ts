@@ -2,11 +2,6 @@ import {LineItemRequest} from "./LineItemRequest";
 
 
 export interface OrderRequest {
-  payment: Payment;
+  payment?: string;
   lineItems: Array<LineItemRequest>;
-}
-
-export enum Payment {
-  PAY_BY_BANK = "PAY_BY_BANK",
-  PAY_AT_HOME = "PAY_AT_HOME"
 }

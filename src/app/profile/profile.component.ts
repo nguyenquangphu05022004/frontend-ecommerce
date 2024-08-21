@@ -9,7 +9,7 @@ import {UserModelView} from "../services/api/model/view/UserModelView";
 })
 export class ProfileComponent implements OnInit{
 
-  user ?: UserModelView;
+  user : UserModelView = new UserModelView();
   constructor(private userService: UserService) {
   }
 

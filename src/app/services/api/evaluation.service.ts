@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {environment} from "../../../environment/enviroment";
 import {HttpClient} from "@angular/common/http";
+import {APIResponse} from "./model/response/APIResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class EvaluationService {
   }
 
   createEvaluation(formData: FormData) {
-    return this.client.post(this.url, formData);
+    return this.client.post<APIResponse<any>>(this.url, formData);
   }
   deleteById(id: number) {
     return this.client.delete(`${this.url}/${id}`)

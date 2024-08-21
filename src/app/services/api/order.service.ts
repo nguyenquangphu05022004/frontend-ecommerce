@@ -23,7 +23,7 @@ export class OrderService {
   }
 
   getAllOrderCreatedByCustomer(filterOrderRequest: FilterOrderRequest) {
-    return this.httpClient.post<APIListResponse<OrderModelView>>(`${this.url}/customer`, filterOrderRequest);
+    return this.httpClient.post<APIListResponse<any>>(`${this.url}/customer`, filterOrderRequest);
   }
 
   deleteOrderById(id: number) {

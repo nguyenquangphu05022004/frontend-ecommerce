@@ -9,5 +9,5 @@ import {OrderModelView} from "../../services/api/model/view/OrderModelView";
 export class OrderPlaceComponent {
 
   @Input()
-  orders?: Array<OrderModelView> = new Array<OrderModelView>()
+  orders?: Array<OrderModelView>;
 }

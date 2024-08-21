@@ -9,12 +9,12 @@ import {VendorUserProfileModelView} from "../../services/api/model/view/VendorUs
 })
 export class UserFollowVendorComponent {
   @Input()
-  vendors: Array<VendorUserProfileModelView> | undefined;
+  vendors?: Array<VendorUserProfileModelView> ;
 
   constructor(private vendorService: VendorService) {
   }
 
-  cancelFollow(vendorId: number) {
+  cancelFollow(vendorId?: number) {
     this.vendorService.cancelFollow(vendorId)
       .subscribe({
         next: (response) => {

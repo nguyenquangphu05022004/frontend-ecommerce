@@ -13,18 +13,18 @@
       </thead>
   </table>
     <app-info-cart
-      [cartResponse]="shoppingCartResponse"
+      [vendorCartModelViews]="vendorCartModelViews"
       [keyCheck]="keyCheck"
       [selectAll] = "selectAll"
       (getProductSelected)="showCheckout($event)"
-      [keyStock]="keyStock"
+      [keyInventory]="keyInventory"
       [keyVendor]="keyVendor"
     ></app-info-cart>
     <div class="d-flex justify-content-evenly">
       <div class="d-flex flex-row">
         <div class="d-flex">
           <input type="checkbox" id="totalItem" class="form-check-input">
-          <label for="totalItem" class="form-check-label" style="margin-left: 20px">Chon tat ca({{shoppingCartResponse.vendors?.length}})</label>
+          <label for="totalItem" class="form-check-label" style="margin-left: 20px">Chon tat ca({{vendorCartModelViews.length}})</label>
         </div>
         <div>
           <button class="btn btn-primary">Xoa</button>

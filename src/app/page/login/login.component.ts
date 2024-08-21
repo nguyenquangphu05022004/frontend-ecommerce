@@ -21,10 +21,9 @@ export class LoginComponent {
     this.authService.authenticate(this.authenRequest)
       .subscribe({
         next: response => {
-          localStorage.setItem("jwt", JSON.stringify(response.data))
-        },
-        error: error => {
-          console.log("login error: ", error)
+          if(response.status === 200) {
+            localStorage.setItem("jwt", JSON.stringify(response.data))
+          }
         }
       })
   }

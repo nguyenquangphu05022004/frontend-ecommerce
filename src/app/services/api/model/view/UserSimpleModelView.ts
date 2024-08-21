@@ -1,8 +1,8 @@
 
-export interface UserSimpleModelView {
-  id: number;
-  userImage: string;
-  fullName: string;
-  userType: string;
+export class UserSimpleModelView {
+  id?: number;
+  userImage?: string;
+  fullName?: string;
+  userType?: string;
 
 }

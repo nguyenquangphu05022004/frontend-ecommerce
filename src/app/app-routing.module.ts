@@ -7,13 +7,16 @@ import {LoginComponent} from "./page/login/login.component";
 import {RegisterComponent} from "./page/register/register.component";
 import {ProductDetailComponent} from "./page/product-detail/product-detail.component";
 import {CartComponent} from "./page/cart/cart.component";
-import {FooterComponent} from "./layout/footer/footer.component";
 import {OrderComponent} from "./page/cart/order/order.component";
 import {ProfileComponent} from "./profile/profile.component";
 
 const routes: Routes = [
   {
     path: "home",
+    component: HomeComponent,
+  },
+  {
+    path: "",
     component: HomeComponent
   },
   {

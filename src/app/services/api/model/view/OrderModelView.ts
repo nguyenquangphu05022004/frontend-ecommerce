@@ -1,10 +1,9 @@
 import {LineItemModelView} from "./LineItemModelView";
 import {OrderStatus} from "../request/FilterOrderRequest";
-import {Payment} from "../request/OrderRequest";
 
 export interface OrderModelView {
   id: number
-  payment: Payment;
+  payment: string;
   orderStatus: OrderStatus;
   approval: boolean
   purchased: boolean;

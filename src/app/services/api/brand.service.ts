@@ -2,6 +2,8 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environment/enviroment";
 import {BrandRequest} from "./model/request/BrandRequest";
+import {APIListResponse} from "./model/response/APIListResponse";
+import {BrandModelView} from "./model/view/BrandModelView";
 
 @Injectable({
   providedIn:'root'
@@ -24,6 +26,6 @@ export class BrandService {
       attribute.push(`limit=${limit}`)
     }
     url += (attribute.length != 0) ? `?${attribute.join("&")}` : ''
-    return this.httpClient.get(url);
+    return this.httpClient.get<APIListResponse<BrandModelView>>(url);
   }
 }

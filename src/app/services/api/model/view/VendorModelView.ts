@@ -1,9 +1,11 @@
 import {VendorUserProfileModelView} from "./VendorUserProfileModelView";
 
-export interface VendorModelView extends VendorUserProfileModelView{
-  createdAt: string;
-  numberOfFollower: number;
-  numberOfProducts: number
-  percentRelyComment: number;
-
+export class VendorModelView extends VendorUserProfileModelView{
+  createdAt?: string;
+  numberOfFollower?: number;
+  numberOfProducts?: number
+  percentRelyComment?: number;
+  constructor(id?: number, shopName?: string, perMoneyDelivery?: number) {
+    super(id, shopName, perMoneyDelivery);
+  }
 }

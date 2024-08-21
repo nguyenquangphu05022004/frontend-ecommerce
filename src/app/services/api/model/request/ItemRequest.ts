@@ -1,6 +1,6 @@
 
 export interface ItemRequest {
-  quantity: number;
-  inventoryId: number;
+  quantity?: number;
+  inventoryId?: number;
 
 }

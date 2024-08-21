@@ -3,6 +3,8 @@ import {CategoryService} from "../../services/api/category.service";
 import {ProductService} from "../../services/api/product.service";
 import {CategoryModelView} from "../../services/api/model/view/CategoryModelView";
 import {ProductGalleryModelView} from "../../services/api/model/view/ProductGalleryModelView";
+import {Utils} from "../../services/utils";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -15,27 +17,32 @@ export class HomeComponent implements OnInit{
   products: Array<ProductGalleryModelView> = new Array<ProductGalleryModelView>()
   constructor(
     private categoryService: CategoryService,
-    private productService: ProductService
+    private productService: ProductService,
+    private router: Router
     ) {
   }
 
   ngOnInit(): void {
-        this.categoryService.getAllCategoryParent(null, null)
-          .subscribe({
-            next: (response) => {
-              if(response.status == 200) {
-                this.categories = response.data;
+        if(Utils.isTokenExpired()) {
+          this.router.navigateByUrl("/login")
+        } else {
+          this.categoryService.getAllCategoryParent(null, null)
+            .subscribe({
+              next: (response) => {
+                if(response.status == 200) {
+                  this.categories = response.data;
+                }
               }
-            }
-          })
-        this.productService.getAllProduct(null)
-          .subscribe({
-            next: (response) => {
-              if(response.status === 200) {
-                this.products = response.data;
+            })
+          this.productService.getAllProduct(null)
+            .subscribe({
+              next: (response) => {
+                if(response.status === 200) {
+                  this.products = response.data;
+                }
               }
-            }
-          })
+            })
 
+        }
     }
 }

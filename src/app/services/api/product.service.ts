@@ -36,13 +36,13 @@ export class ProductService {
   }
 
   getAllProduct(filter: FilterProductRequest | null) {
-    return this.httpClient.post<APIResponse<any>>(
+    return this.httpClient.post<APIListResponse<ProductGalleryModelView>>(
       `${this.url}/search`,
       filter
     )
   }
   getInventoryAttributeKey(request: InventoryRequest) {
-    return this.httpClient.post(
+    return this.httpClient.post<APIResponse<any>>(
       `${this.url}/inventories`,
       request
     )

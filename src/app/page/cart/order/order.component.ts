@@ -1,11 +1,15 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
-import {APIResponse, ItemResponse, VendorCartResponse} from "../../../services/api/model/output.model";
 import {Common} from "../../../../environment/common";
-import {Coupon, LineItem, Status, UserContactDetails} from "../../../services/api/model/object.model";
 import {VendorService} from "../../../services/api/vendor.service";
-import {ItemRequest, LineItemRequest, OrderRequest} from "../../../services/api/model/order";
 import {OrderService} from "../../../services/api/order.service";
+import {VendorCartModelView} from "../../../services/api/model/view/VendorCartModelView";
+import {APIResponse} from "../../../services/api/model/response/APIResponse";
+import {CouponModelView} from "../../../services/api/model/view/CouponModelView";
+import {ItemCartModelView} from "../../../services/api/model/view/ItemCartModelView";
+import {OrderRequest} from "../../../services/api/model/request/OrderRequest";
+import {LineItemRequest} from "../../../services/api/model/request/LineItemRequest";
+import {ItemRequest} from "../../../services/api/model/request/ItemRequest";
 
 @Component({
   selector: 'app-order',
@@ -13,12 +17,25 @@ import {OrderService} from "../../../services/api/order.service";
   styleUrls: ['./order.component.css']
 })
 export class OrderComponent {
-
-  vendorCartResponses: Array<VendorCartResponse> = new Array<VendorCartResponse>();
+  orderRequest: OrderRequest = new class implements OrderRequest {
+    lineItems: Array<LineItemRequest> = new Array<LineItemRequest>();
+    payment?: string
+  }
+  Payment  = [
+    {
+      key: "Pay at home",
+      value: "PAY_AT_HOME"
+    },
+    {
+      key:"Pay through bank",
+      value: "PAY_BY_BANK"
+    }
+  ]
+  vendorModelViewsCheckout: Array<VendorCartModelView> = new Array<VendorCartModelView>();
   couponCode : string = "";
-  listMapCouponResponse: Map<number, APIResponse<Coupon>> = new Map<number, APIResponse<Coupon>>()
+  listMapCouponResponse: Map<number, APIResponse<CouponModelView>> = new Map<number, APIResponse<CouponModelView>>()
   payment: any;
-  userContactDetails: UserContactDetails = {}
+  userContactDetails = {}
 //1c902295-5d01-467e-bb60-70e6c5616784
   constructor(
     private router: Router,
@@ -27,14 +44,14 @@ export class OrderComponent {
   ) {
 
     //@ts-ignore
-    this.vendorCartResponses = this.router.getCurrentNavigation()?.extras.state.productSelected;
+    this.vendorCartResponses = this.router.getCurrentNavigation()?.extras.state.vendorCartModelViewsCheckout;
   }
 
 
-  getProducts(): Array<ItemResponse> {
-    const products: Array<ItemResponse> = new Array<ItemResponse>();
-    this.vendorCartResponses.forEach(vendor => {
-      vendor.itemResponses?.forEach(item => {
+  getProducts(): Array<ItemCartModelView> {
+    const products: Array<ItemCartModelView> = new Array<ItemCartModelView>();
+    this.vendorModelViewsCheckout.forEach(vendor => {
+      vendor.items?.forEach(item => {
         products.push(item)
       })
     })
@@ -43,7 +60,7 @@ export class OrderComponent {
 
   getTotalDecrease() {
     let totalDecrease = 0;
-    this.vendorCartResponses.forEach(vendor => {
+    this.vendorModelViewsCheckout.forEach(vendor => {
       //@ts-ignore
       if(this.listMapCouponResponse.has(vendor.id)) {
         //@ts-ignore
@@ -53,14 +70,14 @@ export class OrderComponent {
     return totalDecrease;
   }
 
-  getTotalPriceOfItem(item: ItemResponse | undefined) {
+  getTotalPriceOfItem(item: ItemCartModelView | undefined) {
     //@ts-ignore
-    return item?.quantity * item?.stock?.price
+    return item?.quantity * item?.product.price
   }
 
   getTotalItem() {
     let totalItem = 0;
-    this.vendorCartResponses.forEach(vendor => {
+    this.vendorModelViewsCheckout.forEach(vendor => {
       //@ts-ignore
       totalItem += vendor.itemResponses?.length
     })
@@ -69,10 +86,10 @@ export class OrderComponent {
 
   getTotalPrice() {
     let totalPrice = 0;
-    this.vendorCartResponses.forEach(vendor => {
-      vendor.itemResponses?.forEach(item => {
+    this.vendorModelViewsCheckout.forEach(vendor => {
+      vendor.items?.forEach(item => {
         //@ts-ignore
-        totalPrice += item.stock?.price * item.quantity;
+        totalPrice += item?.product?.price * item.quantity;
       })
       //@ts-ignore
       if(this.listMapCouponResponse.has(vendor.id)) {
@@ -85,9 +102,9 @@ export class OrderComponent {
 
   protected readonly Common = Common;
 
-  getTotalPriceOfVendor(vendor: VendorCartResponse) {
+  getTotalPriceOfVendor(vendor: VendorCartModelView) {
     let price: number = 0;
-    vendor.itemResponses?.forEach(item => {
+    vendor.items?.forEach(item => {
       price += this.getTotalPriceOfItem(item)
     })
     //@ts-ignore
@@ -99,19 +116,7 @@ export class OrderComponent {
   }
 
   findCouponByVendor(vendorId: number | undefined) {
-    this.vendorService.findCouponByVendorIdAndCouponCode(vendorId, this.couponCode)
-      .subscribe({
-        next: (apiResponse) => {
-          if(apiResponse.status === Status.CODE_EXPIRED) {
-            alert("Code that you enter was expired")
-          } else if(apiResponse.status === Status.NOT_FOUND) {
-            alert("Code that you enter not found")
-          } else if(apiResponse.status === Status.SUCCESS) {
-            //@ts-ignore
-            this.listMapCouponResponse.set(vendorId, apiResponse);
-          }
-        },
-      })
+
   }
 
   /**
@@ -136,41 +141,32 @@ export class OrderComponent {
    * }
    */
   order() {
-    const orderRequest: OrderRequest = {
-      lineItemRequests: new Array<LineItemRequest>(),
-      payment: this.payment,
-      userContactDetails: this.userContactDetails
-    }
-    this.vendorCartResponses.forEach(vendor => {
+    this.vendorModelViewsCheckout.forEach(vendor => {
       // @ts-ignore
       const apiResponse: APIResponse<Coupon> = this.listMapCouponResponse.get(vendor.id)
-      const lineItem : LineItemRequest = {
-        itemRequests: new Array<ItemRequest>(),
+      const lineItem: LineItemRequest  = {
+        items: new Array<ItemRequest>,
         vendorId: vendor.id
       }
       if(apiResponse !== undefined) {
         lineItem.couponId = apiResponse.data?.id
       }
-      vendor.itemResponses?.forEach(item => {
-        lineItem.itemRequests?.push({
-          quantity: item.quantity,
-          classificationId: item.stockClassificationId,
-          stockId: item.stock?.id
+      vendor.items?.forEach(item => {
+        lineItem.items?.push( {
+          inventoryId: item.id,
+          quantity: item.quantity
         })
       })
-      orderRequest.lineItemRequests?.push(lineItem)
+      this.orderRequest.lineItems?.push(lineItem)
     })
-    console.log(orderRequest)
-    this.orderService.createOrder(orderRequest)
+    this.orderService.createOrder(this.orderRequest)
       .subscribe({
         next: (response) => {
-          console.log(response)
-          alert("Order successfully")
-          this.router.navigateByUrl("/user/orders")
-        },
-        error: (err) => {
-          alert("Error")
-          console.log(err)
+          if(response.status === 200) {
+            this.router.navigateByUrl("/user/orders")
+          } else if(response.status === 400) {
+            alert("your order can't create, please wait a minute")
+          }
         }
       })
   }

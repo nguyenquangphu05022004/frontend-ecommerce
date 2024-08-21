@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environment/enviroment";
 import {CategoryModelView} from "./model/view/CategoryModelView";
 import {APIListResponse} from "./model/response/APIListResponse";
+import {APIResponse} from "./model/response/APIResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class CategoryService {
   constructor(private httpClient: HttpClient) { }
 
   createCategory(formPart: FormData) {
-      return this.httpClient.post(this.url, formPart);
+      return this.httpClient.post<APIResponse<any>>(this.url, formPart);
   }
 
   getAllCategoryParent(page: number | null , limit: number | null) {

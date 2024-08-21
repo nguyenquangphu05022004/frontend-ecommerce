@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {ItemResponse, ShoppingCartResponse, VendorCartResponse} from "../../../services/api/model/output.model";
-import {Stock, Vendor} from "../../../services/api/model/object.model";
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {Common} from "../../../../environment/common";
+import {VendorCartModelView} from "../../../services/api/model/view/VendorCartModelView";
+import {ItemCartModelView} from "../../../services/api/model/view/ItemCartModelView";
 
 @Component({
   selector: 'app-info-cart',
@@ -10,104 +10,96 @@ import {Common} from "../../../../environment/common";
 })
 export class InfoCartComponent implements OnChanges {
   @Output()
-  getProductSelected: EventEmitter<Array<VendorCartResponse>> = new EventEmitter<Array<VendorCartResponse>>();
+  getProductSelected: EventEmitter<Array<VendorCartModelView>> = new EventEmitter<Array<VendorCartModelView>>();
   @Input()
   selectAll: boolean = false;
   @Input()
   keyCheck: Map<string, boolean> = new Map<string, boolean>()
   @Input()
-  cartResponse: ShoppingCartResponse = new ShoppingCartResponse();
+  vendorCartModelViews: Array<VendorCartModelView> = new Array<VendorCartModelView>();
   @Input()
   keyVendor: string = ""
   @Input()
-  keyStock: string = ""
+  keyInventory: string = ""
 
   selectVendor(event: any) {
     const vendorIndex = event.target.value;
-    if (this.keyCheck.has(this.keyVendor + vendorIndex)) {
-      this.keyCheck.set(this.keyVendor + vendorIndex, !this.keyCheck.get(this.keyVendor + vendorIndex));
+    const vendor = this.vendorCartModelViews.at(vendorIndex);
+    const value = this.keyCheck.get(this.keyVendor + vendor?.id);
+    if (value === false || value === undefined) {
+      this.keyCheck.set(this.keyVendor + vendor?.id, true);
     } else {
-      this.keyCheck.set(this.keyVendor + vendorIndex, true);
+      this.keyCheck.set(this.keyVendor + vendor?.id, false);
     }
-    const length = this.cartResponse?.vendors?.at(vendorIndex)?.itemResponses?.length;
-    // @ts-ignore
-    for (let i = 0; i < length; i++) {
-      //@ts-ignore
-      const isExists = this.keyCheck.has(this.keyVendor + this.keyStock + this.vendorCartResponse.itemResponses?.at(i).stock.id + "_" + this.cartResponse?.vendors?.at(vendorIndex)?.itemResponses?.at(i).stockClassificationId);
-      if (isExists) {
+    vendor?.items?.forEach(item => {
+      const value = this.keyCheck.get(this.keyVendor + this.keyInventory + item?.id);
+      if (value === false || value === undefined) {
         //@ts-ignore
-        this.keyCheck.set(this.keyVendor + this.keyStock + this.cartResponse?.vendors?.at(vendorIndex)?.itemResponses?.at(i).stock.id, !this.keyCheck.get(this.keyVendor + this.keyStock + this.vendorCartResponse.itemResponses?.at(i).stock.id + "_" + this.cartResponse?.vendors?.at(vendorIndex)?.itemResponses?.at(i).stockClassificationId));
+        this.keyCheck.set(this.keyVendor + this.keyInventory + item.id, true);
       } else {
         //@ts-ignore
-        this.keyCheck.set(this.keyVendor + this.keyStock + this.vendorCartResponse.itemResponses?.at(i).stock.id + "_" + this.cartResponse?.vendors?.at(vendorIndex)?.itemResponses?.at(i).stockClassificationId, true);
+        this.keyCheck.set(this.keyVendor + this.keyInventory + item.id, false);
       }
-    }
+    })
+    this.selectAll = false;
     this.getProductFromKey()
   }
 
   selectItem(event: any) {
-    const stockIdAndStockClassificationId = event.target.value; //format stockId_stockClassificationId = 5_2; stockId = 5; stockClassificationId = 2;
-    //@ts-ignore
-    const isExists = this.keyCheck.has(this.keyVendor + this.keyStock + stockIdAndStockClassificationId);
-    if (isExists) {
-      console.log("exists")
-      //@ts-ignore
-      this.keyCheck.set(this.keyVendor + this.keyStock + stockIdAndStockClassificationId, !this.keyCheck.get(this.keyVendor + this.keyStock + stockIdAndStockClassificationId));
-    } else {
-      //@ts-ignore
-      this.keyCheck.set(this.keyVendor + this.keyStock + stockIdAndStockClassificationId, true);
+    const vendorAndItemIndex = event.target.value.split("_");
+    const vendor =  this.vendorCartModelViews.at(vendorAndItemIndex[0]);
+    const item = vendor?.items?.at(vendorAndItemIndex[1]);
+    if(this.keyCheck.get(this.keyVendor + vendor?.id) === true) {
+      this.keyCheck.set(this.keyVendor + vendor?.id, false);
     }
-    this.keyCheck.set(this.keyVendor + stockIdAndStockClassificationId, false);
+    const value = this.keyCheck.get(this.keyVendor + this.keyInventory + item?.id);
+    if(value === false || value === undefined) {
+      this.keyCheck.set(this.keyVendor + this.keyInventory + item?.id, true)
+    } else {
+      this.keyCheck.set(this.keyVendor + this.keyInventory + item?.id, false)
+    }
     this.getProductFromKey()
     console.log(this.keyCheck)
   }
 
-  getTotalPrice(quantity: number | undefined, stock: Stock | undefined) {
+  getTotalPrice(quantity: number | undefined, price: number | undefined) {
     //@ts-ignore
     return quantity * stock?.price
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    for (let propName in changes) {
-      if (propName === "selectAll") {
-        this.turnOnAllFormCheckBox()
-        break;
-      }
-    }
+    // @ts-ignore
+    checkSelectAll(changes.selecetAll.currentValue)
   }
 
-  turnOnAllFormCheckBox() {
-    const lenVendor = this.cartResponse?.vendors?.length;
-    //@ts-ignore
-    for(let j = 0; j < lenVendor; j++) {
-      this.keyCheck.set(this.keyVendor + j, this.selectAll);
-      const length = this.cartResponse?.vendors?.at(j)?.itemResponses?.length;
-      //@ts-ignore
-      for (let i = 0; i < length; i++) {
-        //@ts-ignore
-        this.keyCheck.set(this.keyVendor + this.keyStock + this.cartResponse.vendors?.at(j).itemResponses?.at(i).stock.id + "_" + this.cartResponse.vendors?.at(j).itemResponses.at(i).stockClassificationId, this.selectAll);
-      }
-      this.getProductFromKey()
+  checkSelectAll(currentValue: boolean) {
+    if(currentValue === true) {
+      this.vendorCartModelViews.forEach(vendor => {
+        this.keyCheck.set(this.keyVendor + vendor?.id, true);
+        vendor?.items?.forEach(item => {
+          this.keyCheck.set(this.keyVendor + this.keyInventory + item?.id, true)
+        })
+      })
     }
+    this.getProductFromKey()
   }
 
   getProductFromKey() {
-    console.log(this.cartResponse)
-    let vendorCartResponse: Array<VendorCartResponse> = new Array<VendorCartResponse>();
+    let vendorCartResponse: Array<VendorCartModelView> = new Array<VendorCartModelView>();
     //@ts-ignore
-    this.cartResponse.vendors?.forEach(vendor => {
-      let vendorSelected: VendorCartResponse = new VendorCartResponse(
+    this.vendorCartModelViews?.forEach(vendor => {
+      let vendorSelected: VendorCartModelView = new VendorCartModelView(
         vendor.id,
         vendor.shopName,
         vendor.perMoneyDelivery
       );
-      vendorSelected.itemResponses = new Array<ItemResponse>();
-      vendor.itemResponses?.forEach(item => {
-        if (this.keyCheck.get(this.keyVendor + this.keyStock + item?.stock?.id + "_" + item.stockClassificationId)) {
-          vendorSelected.itemResponses?.push(item);
+      vendorSelected.items = new Array<ItemCartModelView>();
+      vendor.items?.forEach(item => {
+        if (this.keyCheck.get(this.keyVendor + this.keyInventory + item?.id)) {
+          vendorSelected.items?.push(item);
         }
       })
-      if(vendorSelected.itemResponses.length > 0) {
+      if(vendorSelected.items.length > 0) {
         vendorCartResponse.push(vendorSelected);
       }
     })
