@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class FooterComponent {
 
+  isOpenChat: boolean = false
+  openChat() {
+    this.isOpenChat = !this.isOpenChat
+  }
 }

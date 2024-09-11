@@ -23,6 +23,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { EvaluationComponent } from './profile/evaluation/evaluation.component';
 import { OrderPlaceComponent } from './profile/order-place/order-place.component';
 import { UserFollowVendorComponent } from './profile/user-follow-vendor/user-follow-vendor.component';
+import { MessageComponent } from './page/message/message.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { UserFollowVendorComponent } from './profile/user-follow-vendor/user-fol
     ProfileComponent,
     EvaluationComponent,
     OrderPlaceComponent,
-    UserFollowVendorComponent
+    UserFollowVendorComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,
