@@ -1,0 +1,12 @@
+<ul>
+  <li>
+    <a href="javascript:(0)" (click)="enFormComponent()">Form</a>
+  </li>
+  <li>
+    <a href="javascript:(0)" (click)="enListComponent()">List</a>
+  </li>
+</ul>
+
+
+<app-brand-form *ngIf="enForm"></app-brand-form>
+<app-brand-list *ngIf="enList"></app-brand-list>

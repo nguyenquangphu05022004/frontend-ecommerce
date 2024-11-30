@@ -9,6 +9,10 @@ import {ProductDetailComponent} from "./page/product-detail/product-detail.compo
 import {CartComponent} from "./page/cart/cart.component";
 import {OrderComponent} from "./page/cart/order/order.component";
 import {ProfileComponent} from "./profile/profile.component";
+import {OrderHistoryComponent} from "./page/cart/order/order-history/order-history.component";
+import {OrderDetailComponent} from "./page/cart/order/order-detail/order-detail.component";
+import {ForgetPasswordComponent} from "./page/forget-password/forget-password.component";
+import {DashboardComponent} from "./page/admin/dashboard/dashboard.component";
 
 const routes: Routes = [
   {
@@ -32,6 +36,10 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
+    path:'forget-password',
+    component: ForgetPasswordComponent
+  },
+  {
     path: "register",
     component: RegisterComponent
   },
@@ -50,6 +58,18 @@ const routes: Routes = [
   {
     path: "profile",
     component: ProfileComponent
+  },
+  {
+    path:"user-orders",
+    component: OrderHistoryComponent
+  },
+  {
+    path:"order-detail/:orderId",
+    component: OrderDetailComponent
+  },
+  {
+    path: 'admin/dashboard',
+    component: DashboardComponent
   }
 ];
 

@@ -4,14 +4,16 @@ export class FilterProductRequest {
   page: Number = 1
   limit: number = 20
 }
-export enum ProductFilterType {
-  CATEGORY_PARENT = "CATEGORY_PARENT",
-  CATEGORY_CHILDREN = "CATEGORY_CHILDREN",
-  NAME = "NAME",
-  BRAND = "BRAND",
-  PRICE = "PRICE",
-  VENDOR = "VENDOR"
+export enum KeySearch {
+  CATEGORY_PARENT = "CateParentFilter",
+  CATEGORY_CHILDREN = "CateChildrenFilter",
+  NAME = "NameFilter",
+  BRAND = "BrandFilter",
+  PRICE = "PriceFilter",
+  VENDOR = "VendorFilter"
 }
+
+
 const sortTypes = [
   {
     "key": "DEFAULT",

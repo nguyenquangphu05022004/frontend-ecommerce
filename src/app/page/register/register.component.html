@@ -32,18 +32,53 @@
               <label for="floatingPassword">Password</label>
             </div>
             <div class="form-floating mb-4">
-              <input type="password" class="form-control"
-                     id="fullName" placeholder="Password"
+              <input type="text" class="form-control"
+                     id="firstName" placeholder="Password"
                      name="password"
-                     [(ngModel)]="registerRequest.fullName"
+                     [(ngModel)]="registerRequest.firstName"
               >
-              <label for="fullName">Full name</label>
+              <label for="firstName">First name</label>
+            </div>
+            <div class="form-floating mb-4">
+              <input type="text" class="form-control"
+                     id="lastName" placeholder="Password"
+                     name="password"
+                     [(ngModel)]="registerRequest.lastName"
+              >
+              <label for="lastName">Last name</label>
+            </div>
+            <div class="form-floating mb-4">
+              <input type="text" class="form-control"
+                     id="email" placeholder="Password"
+                     name="password"
+                     [(ngModel)]="registerRequest.email"
+              >
+              <label for="email">Email</label>
+            </div>
+            <div class="form-floating mb-4">
+              <input type="text" class="form-control"
+                     id="phoneNumber" placeholder="Password"
+                     name="password"
+                     [(ngModel)]="registerRequest.phoneNumber"
+              >
+              <label for="phoneNumber">Phone Number</label>
+            </div>
+            <div >
+              <select
+                class="form-select mb-4"
+                id="sex"
+                name="dcm"
+                [(ngModel)]="registerRequest.sex"
+              >
+                <option value="MALE" >Male</option>
+                <option value="FEMALE">Female</option>
+              </select>
             </div>
             <button class="btn btn-primary" (click)="register()">Sign up</button>
           </form>
-          <p class="text-center mb-0"> Bạn đã có tài khoản? <a
+          <p class="text-center mb-0"> Are you have account? <a
             routerLink="/login"
-          >Đăng nhập</a></p>
+          >Login</a></p>
         </div>
       </div>
     </div>

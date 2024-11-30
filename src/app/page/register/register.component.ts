@@ -1,7 +1,17 @@
-import { Component } from '@angular/core';
-import {AuthService} from "../../services/api/auth.service";
-import {RegisterRequest} from "../../services/api/model/request/RegisterRequest";
-import {ActivatedRoute, Route, Router} from "@angular/router";
+import {Component} from '@angular/core';
+import {Router} from "@angular/router";
+import {UserService} from "../../services/sys/user.service";
+
+
+interface Request {
+  username?: string
+  password?: string
+  firstName?: string
+  lastName?: string
+  email?: string
+  phoneNumber?: string
+  sex?: string
+}
 
 @Component({
   selector: 'app-register',
@@ -10,21 +20,17 @@ import {ActivatedRoute, Route, Router} from "@angular/router";
 })
 export class RegisterComponent {
 
-  registerRequest: RegisterRequest = new RegisterRequest();
-  constructor(private authService: AuthService,
-              private route: Router) {
+  registerRequest: Request = {}
+  constructor(private authService: UserService) {
   }
 
   register() {
-    this.authService.register(this.registerRequest)
+    console.log(this.registerRequest)
+    this.authService.createUserMember(this.registerRequest)
       .subscribe({
         next: (response) => {
-          if(response.status == 200) {
-            //redirect to login page
-            this.route.navigateByUrl("/login");
-          } else {
-            alert("can't register, please see your information before click")
-          }
+          alert("Register successfully")
+          window.location.href = '/login'
         }
       })
   }

@@ -28,7 +28,7 @@ export class MessageService {
   }
 
   getMessageDetails(request: FilterMessageRequest) {
-    return this.httpClient.post<APIListResponse<MessageModelView>>(
+    return this.httpClient.post<APIListResponse<any>>(
       `${this.base_url_api}/messages/details`,
       request,
       {headers: Utils.getHeader()}
@@ -36,7 +36,7 @@ export class MessageService {
   }
 
   getMessageGallery(gallery: MessageGallery) {
-    return this.httpClient.post<APIListResponse<MessageModelView>>(
+    return this.httpClient.post<APIListResponse<any>>(
       `${this.base_url_api}/messages/galleries?page=${gallery.page}&limit=${gallery.limit}`,
       null,
       {headers: Utils.getHeader()}

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CategoryService} from "../../services/api/category.service";
+import {CategoryService} from "../../services/promotion/category/category.service";
 import {ProductService} from "../../services/api/product.service";
 import {CategoryModelView} from "../../services/api/model/view/CategoryModelView";
 import {ProductGalleryModelView} from "../../services/api/model/view/ProductGalleryModelView";
@@ -26,14 +26,14 @@ export class HomeComponent implements OnInit{
         if(Utils.isTokenExpired()) {
           this.router.navigateByUrl("/login")
         } else {
-          this.categoryService.getAllCategoryParent(null, null)
-            .subscribe({
-              next: (response) => {
-                if(response.status == 200) {
-                  this.categories = response.data;
-                }
-              }
-            })
+          // this.categoryService.getAllCategoryParent(null, null)
+          //   .subscribe({
+          //     next: (response) => {
+          //       if(response.status == 200) {
+          //         this.categories = response.data;
+          //       }
+          //     }
+          //   })
           this.productService.getAllProduct(null)
             .subscribe({
               next: (response) => {

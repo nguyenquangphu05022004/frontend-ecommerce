@@ -1,0 +1,44 @@
+<h1>Brand form</h1>
+<section >
+  <div class="col-sm-12 col-xl-12">
+    <div class="bg-light rounded h-100 p-4">
+      <div class="form-floating mb-3">
+        <input type="text"
+               class="form-control"
+               id="name"
+               name="name"
+               [(ngModel)]="request.name"
+               placeholder="Tên thể loại">
+        <label for="name">Brand name</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text"
+               class="form-control"
+               id="slug"
+               name="name"
+               [(ngModel)]="request.slug"
+               placeholder="Tên thể loại">
+        <label for="slug">Brand Slug</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text"
+               class="form-control"
+               id="thumbnail"
+               name="name"
+               [(ngModel)]="request.thumbnail"
+               placeholder="url image, tuy chon">
+        <label for="slug">Brand Thumbnail</label>
+      </div>
+<!--      <div class="form-floating mb-3">-->
+<!--        <img src='http://ssl.gstatic.com/accounts/ui/avatar_2x.png'-->
+<!--             class="thumbnail img-circle img-thumbnail"-->
+<!--             alt="thumbnail">-->
+<!--        <input type="file" name="file" class="text-center center-block file-upload mb-4">-->
+<!--        <label for="name">Thumbnail</label>-->
+<!--      </div>-->
+      <div class="form-floating">
+        <button type="submit" class="btn btn-primary w-100" (click)="createBrand()">Add</button>
+      </div>
+    </div>
+  </div>
+</section>

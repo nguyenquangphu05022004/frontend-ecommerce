@@ -1,0 +1,7 @@
+<div class="d-flex flex-column">
+  <a href="javascript:(0)" (click)="enableFormF()">Spu form</a>
+  <a href="javascript:(0)" (click)="enableListF()">Spu list</a>
+</div>
+
+<app-spu *ngIf="enableForm"></app-spu>
+<app-spu-list *ngIf="enableList"></app-spu-list>

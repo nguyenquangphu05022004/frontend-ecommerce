@@ -1,3 +1,4 @@
+import {EntityType} from "../view/common/entity.type";
 
 
 export interface AuthenResponse {
@@ -5,4 +6,6 @@ export interface AuthenResponse {
   refreshToken: string,
   expiredAt: number,
   fullName: string,
+  userId: number
+  entityType: EntityType
 }

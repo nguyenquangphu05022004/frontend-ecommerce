@@ -35,14 +35,14 @@
           <a class="nav-item nav-link active text-dark"
              style="font-size: 22px; font-weight: bold"
              href="/home"
-          >Trang Chủ</a>
+          >Home</a>
           <a
             href="/shop"
             class="nav-item nav-link text-dark "
-            style="font-size: 22px">San pham</a>
+            style="font-size: 22px">Shop</a>
           <a
             href="/contact"
-            class="nav-item nav-link text-dark " style="font-size: 22px">Lien He Bán Hàng</a>
+            class="nav-item nav-link text-dark " style="font-size: 22px">Contact</a>
         </div>
         <!-- Navbar -->
         <ul *ngIf="!Utils.isTokenExpired()" class="navbar-nav d-flex flex-row me-1">
@@ -89,26 +89,17 @@
               <span id="authen_username"  style="font-size: 22px">{{Utils.getAuth().fullName}}</span>
             </a>
             <div class="dropdown-menu m-0 bg-secondary rounded-0">
-              <a  style="color: #000; font-size: 18px" class="dropdown-item">Thông
-                tin cá nhân</a>
-              <a  style="color: #000; font-size: 18px" class="dropdown-item">Sản
-                phẩm đặt hàng</a>
+              <a href="/profile" style="color: #000; font-size: 18px" class="dropdown-item">Profile</a>
+              <a href="/user-orders" style="color: #000; font-size: 18px" class="dropdown-item">My Orders</a>
               <div >
                 <a style="color: #000; font-size: 18px"
                    class="dropdown-item">
                   Quản trị
                 </a>
               </div>
-              <div >
-                <a  style="color: #000; font-size: 18px"
-                    class="dropdown-item">
-                  Quản trị
-                </a>
-              </div>
               <a  style="color: #000; font-size: 18px"
-                  class="dropdown-item">Đổi mật khẩu</a>
-              <a  style="color: #000; font-size: 18px" class="dropdown-item">Đăng
-                xuất</a>
+                  class="dropdown-item">Changes password</a>
+              <a  style="color: #000; font-size: 18px" class="dropdown-item">Logout</a>
             </div>
           </div>
         </div>

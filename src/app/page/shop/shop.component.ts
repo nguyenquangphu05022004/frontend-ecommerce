@@ -1,15 +1,15 @@
 import {Component} from '@angular/core';
-import {CategoryService} from "../../services/api/category.service";
+import {CategoryService} from "../../services/promotion/category/category.service";
 import {ProductService} from "../../services/api/product.service";
 import {Router} from "@angular/router";
 import {CategoryModelView} from "../../services/api/model/view/CategoryModelView";
 import {ProductGalleryModelView} from "../../services/api/model/view/ProductGalleryModelView";
 import sortTypes, {
   FilterProductRequest,
-  ProductFilterType
+  KeySearch
 } from "../../services/api/model/request/FilterProductRequest";
 import {APIListResponse} from "../../services/api/model/response/APIListResponse";
-import {BrandService} from "../../services/api/brand.service";
+import {BrandService} from "../../services/promotion/brand/brand.service";
 import {BrandModelView} from "../../services/api/model/view/BrandModelView";
 import {Utils} from "../../services/utils";
 
@@ -42,12 +42,12 @@ export class ShopComponent  {
         //@ts-ignore
         this.catePass = this.router.getCurrentNavigation()?.extras.state.category;
         if (this.catePass != undefined) {
-          this.filterProductRequest.data.set(ProductFilterType.CATEGORY_PARENT, this.catePass.parentId + "")
+          this.filterProductRequest.data.set(KeySearch.CATEGORY_PARENT, this.catePass.parentId + "")
           if (this.catePass.childrenId != undefined) {
             this.filterProductRequest.data.set(
-              ProductFilterType.CATEGORY_CHILDREN,
-              this.filterProductRequest.data.has(ProductFilterType.CATEGORY_CHILDREN) ?
-                this.filterProductRequest.data.get(ProductFilterType.CATEGORY_CHILDREN) + ";" + this.catePass.childrenId
+              KeySearch.CATEGORY_CHILDREN,
+              this.filterProductRequest.data.has(KeySearch.CATEGORY_CHILDREN) ?
+                this.filterProductRequest.data.get(KeySearch.CATEGORY_CHILDREN) + ";" + this.catePass.childrenId
                 : this.catePass.childrenId + "");
           }
         }
@@ -61,23 +61,23 @@ export class ShopComponent  {
 
   ngOnInit(): void {
     console.log("hohoh")
-    this.categoryService.getAllCategoryParent(null, null).subscribe({
-      next: (data) => {
-          if(data.status === 200) {
-            this.categories = data.data;
-            if (this.catePass === undefined) {
-              this.updateChildrenCategory()
-            }
-            else {
-              this.categories.forEach(cate => {
-                if (cate.id === this.catePass?.parentId) {
-                  this.categoryChildren = cate.children
-                }
-              })
-            }
-          }
-      }
-    })
+    // this.categoryService.getAllCategoryParent(null, null).subscribe({
+    //   next: (data) => {
+    //       if(data.status === 200) {
+    //         this.categories = data.data;
+    //         if (this.catePass === undefined) {
+    //           this.updateChildrenCategory()
+    //         }
+    //         else {
+    //           this.categories.forEach(cate => {
+    //             if (cate.id === this.catePass?.parentId) {
+    //               this.categoryChildren = cate.children
+    //             }
+    //           })
+    //         }
+    //       }
+    //   }
+    // })
 
     if (this.catePass === undefined) {
       this.productService.getAllProduct(null).subscribe({
@@ -92,27 +92,27 @@ export class ShopComponent  {
       this.searchProduct()
     }
 
-    this.brandService.getAllBrand(null, null)
-      .subscribe({
-        next: response => {
-          if(response.status === 200) {
-            this.brands = response.data;
-          }
-        }
-      })
+    // this.brandService.getAllBrand(null, null)
+    //   .subscribe({
+    //     next: response => {
+    //       if(response.status === 200) {
+    //         this.brands = response.data;
+    //       }
+    //     }
+    //   })
   }
 
 
   setCategoryParent(event: any) {
     const index = event.target.value;
     this.categoryChildren = new Array<CategoryModelView>()
-    this.filterProductRequest.data.delete(ProductFilterType.CATEGORY_CHILDREN)
-    this.filterProductRequest.data.delete(ProductFilterType.CATEGORY_PARENT)
+    this.filterProductRequest.data.delete(KeySearch.CATEGORY_CHILDREN)
+    this.filterProductRequest.data.delete(KeySearch.CATEGORY_PARENT)
     if (index != -1) {
       //@ts-ignore
       this.categoryChildren = this.categories.at(index).children
       this.filterProductRequest.data.set(
-        ProductFilterType.CATEGORY_PARENT,
+        KeySearch.CATEGORY_PARENT,
         this.categories?.at(index)?.id + ""
       )
     } else if (index == -1) {
@@ -124,10 +124,10 @@ export class ShopComponent  {
   setCategoryChildren(event: any) {
     console.log(this.categoryChildren)
     const cateId = event.target.value;
-    if(!this.filterProductRequest.data.has(ProductFilterType.CATEGORY_CHILDREN)) {
-      this.filterProductRequest.data.set(ProductFilterType.CATEGORY_CHILDREN, cateId)
+    if(!this.filterProductRequest.data.has(KeySearch.CATEGORY_CHILDREN)) {
+      this.filterProductRequest.data.set(KeySearch.CATEGORY_CHILDREN, cateId)
     } else {
-      const value = this.filterProductRequest.data.get(ProductFilterType.CATEGORY_CHILDREN);
+      const value = this.filterProductRequest.data.get(KeySearch.CATEGORY_CHILDREN);
       const ids = value?.split(";");
       let k : string | undefined;
       if(ids?.includes(cateId)) {
@@ -137,7 +137,7 @@ export class ShopComponent  {
         k = ids?.join(";") +";" + cateId;
       }
       this.filterProductRequest.data.set(
-        ProductFilterType.CATEGORY_CHILDREN,
+        KeySearch.CATEGORY_CHILDREN,
         k
       );
     }
@@ -167,12 +167,12 @@ export class ShopComponent  {
   }
 
   setQuery() {
-    this.filterProductRequest.data.set(ProductFilterType.NAME, this.query);
+    this.filterProductRequest.data.set(KeySearch.NAME, this.query);
     this.searchProduct()
   }
 
   setPrice() {
-    this.filterProductRequest.data.set(ProductFilterType.PRICE, `${this.startPrice};${this.endPrice}`)
+    this.filterProductRequest.data.set(KeySearch.PRICE, `${this.startPrice};${this.endPrice}`)
     this.searchProduct()
   }
 
@@ -188,8 +188,8 @@ export class ShopComponent  {
   }
 
   getCheckedCategoryChildren(cateChildId: number) {
-    if(this.filterProductRequest.data.has(ProductFilterType.CATEGORY_CHILDREN)) {
-      return this.filterProductRequest.data.get(ProductFilterType.CATEGORY_CHILDREN)
+    if(this.filterProductRequest.data.has(KeySearch.CATEGORY_CHILDREN)) {
+      return this.filterProductRequest.data.get(KeySearch.CATEGORY_CHILDREN)
         ?.split(";")
         .includes(cateChildId + "");
     }
@@ -199,11 +199,11 @@ export class ShopComponent  {
   setBrand(event: any) {
     const id = event.target.value;
     if(id === "-1") {
-      if(this.filterProductRequest.data.has(ProductFilterType.BRAND)) {
-        this.filterProductRequest.data.delete(ProductFilterType.BRAND)
+      if(this.filterProductRequest.data.has(KeySearch.BRAND)) {
+        this.filterProductRequest.data.delete(KeySearch.BRAND)
       }
     } else {
-      this.filterProductRequest.data.set(ProductFilterType.BRAND, id)
+      this.filterProductRequest.data.set(KeySearch.BRAND, id)
     }
     this.searchProduct()
   }

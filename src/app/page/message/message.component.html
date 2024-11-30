@@ -12,18 +12,8 @@
                   <span style="font-size: 22px">Người bán hàng</span>
                 </a>
                 <div class="dropdown-menu m-0 rounded-0">
-                  <div class="px-4">
-                    <div class="d-flex align-items-center">
-                      <div class="flex-grow-1">
-                        <form id="search-vendor-tablet">
-                          <input type="search" class="form-control my-3 dropdown-item" id="vendor_name_tablet"
-                                 placeholder="Vendor..." >
-                          <input type="submit" class="form-control my-3">
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                  <div id="inbox-users-tablet">
+                  <div  id="inbox-users-tablet">
+                    <p class="h5 text-center" *ngIf="galleries === undefined">BAN CHUA CHAT</p>
                   </div>
                 </div>
               </div>
@@ -38,6 +28,7 @@
             <div class="d-flex align-items-center">
               <div class="flex-grow-1">
                 <h3 class="text-center mt-2">Vendor</h3>
+                <p class="h5 text-center" *ngIf="galleries === undefined">BAN CHUA CHAT</p>
               </div>
             </div>
           </div>
@@ -56,7 +47,7 @@
           <form id="form-message" enctype="multipart/form-data">
             <div class="flex-grow-0 py-3 px-4 border-top">
               <div class="input-group mb-3">
-                <input type="text" class="form-control" id="write-msg" placeholder="Type your message">
+                <input type="text" name="content" [(ngModel)]="messageRequest.content" class="form-control" id="write-msg" placeholder="Type your message">
                 <button class="btn btn-primary" type="submit">Send</button>
               </div>
               <div>

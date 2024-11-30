@@ -1,0 +1,44 @@
+<h1>Brand list</h1>
+<section >
+  <!-- Table Start -->
+  <div class="container-fluid pt-4 px-4">
+
+    <div class="col-12">
+      <div class="bg-light rounded h-100 p-4">
+        <h6 class="mb-4">Brands list</h6>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Slug</th>
+              <th scope="col">Thumbnail</th>
+              <th scope="col">Update</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let brand of brands">
+                  <th scope="row">{{brand.name}}</th>
+                  <th scope="row">{{brand.slug}}</th>
+                  <th scope="row">
+<!--                        src='http://ssl.gstatic.com/accounts/ui/avatar_2x.png'
+-->
+                    <div class="mb-2">
+                      <img [src]="brand.thumbnail"
+                           width="70px"
+                           height="50px"
+                           class="thumbnail img-circle img-thumbnail"
+                           alt="thumbnail">
+                      <input type="file" name="file" class="text-center center-block file-upload">
+                    </div>
+                    <button class="btn btn-danger">Upload</button>
+                  </th>
+                  <th scope="row"><button class="btn btn-primary">Update</button></th>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div><!-- Table End -->
+</section>

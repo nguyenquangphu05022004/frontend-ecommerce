@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductService} from "../../services/api/product.service";
-import {CategoryService} from "../../services/api/category.service";
+import {CategoryService} from "../../services/promotion/category/category.service";
 import {CartService} from "../../services/api/cart.service";
 import {CategoryModelView} from "../../services/api/model/view/CategoryModelView";
 import {ProductDetailsViewModel} from "../../services/api/model/view/ProductDetailsViewModel";
@@ -54,16 +54,16 @@ export class ProductDetailComponent implements OnInit {
           }
         }
       })
-    this.categoryService.getAllCategoryParent(null, null)
-      .subscribe({
-        next: (response) => {
-          if (response.status === 200) {
-            this.categories = response.data;
-          } else {
-            alert("get categories error")
-          }
-        }
-      })
+    // this.categoryService.getAllCategoryParent(null, null)
+    //   .subscribe({
+    //     next: (response) => {
+    //       if (response.status === 200) {
+    //         this.categories = response.data;
+    //       } else {
+    //         alert("get categories error")
+    //       }
+    //     }
+    //   })
     this.imageUrl = this.product?.imageUrl;
   }
 
