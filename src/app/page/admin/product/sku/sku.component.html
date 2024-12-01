@@ -1,0 +1,7 @@
+<div class="d-flex flex-column">
+  <a href="javascript:(0)" (click)="enableFormF()">Sku form</a>
+  <a href="javascript:(0)" (click)="enableListF()">Sku list</a>
+</div>
+
+<app-sku-form *ngIf="enableForm" [productSpu]="productSpu"></app-sku-form>
+<app-sku-list *ngIf="enableList" [spuId]="productSpu"></app-sku-list>

@@ -9,6 +9,7 @@
                class="form-control"
                id="nameVn"
                name="nameVn"
+               [(ngModel)]="request.price"
                placeholder="Ví dụ: giày">
         <label for="nameVn">Price</label>
       </div>
@@ -16,6 +17,7 @@
         <input type="text"
                class="form-control"
                id="thumbnail"
+               [(ngModel)]="request.image"
                name="name"
                placeholder="Tên thể loại">
         <label for="thumbnail">Thumbnail</label>
@@ -25,12 +27,13 @@
                class="form-control"
                id="quantity"
                name="name"
+               [(ngModel)]="request.quantity"
                placeholder="Tên thể loại">
         <label for="thumbnail">Quantity</label>
       </div>
     </form>
     <div class="form-floating mb-3">
-      <button  class="btn btn-primary w-100">Add</button>
+      <button  class="btn btn-primary w-100" (click)="createSku()">Add</button>
     </div>
   </div>
 </div>

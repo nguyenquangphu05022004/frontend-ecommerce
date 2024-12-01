@@ -40,6 +40,9 @@ import { ProductComponent } from './page/admin/product/product.component';
 import { SpuListComponent } from './page/admin/product/spu/spu-list/spu-list.component';
 import { SkuListComponent } from './page/admin/product/sku/sku-list/sku-list.component';
 import { SkuFormComponent } from './page/admin/product/sku/sku-form/sku-form.component';
+import { SkuPropertyFormComponent } from './page/admin/product/sku/property/sku-property-form/sku-property-form.component';
+import { SkuPropertyListComponent } from './page/admin/product/sku/property/sku-property-list/sku-property-list.component';
+import { PropertyComponent } from './page/admin/product/sku/property/property.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +81,9 @@ import { SkuFormComponent } from './page/admin/product/sku/sku-form/sku-form.com
     SpuListComponent,
     SkuListComponent,
     SkuFormComponent,
+    SkuPropertyFormComponent,
+    SkuPropertyListComponent,
+    PropertyComponent,
   ],
   imports: [
     BrowserModule,

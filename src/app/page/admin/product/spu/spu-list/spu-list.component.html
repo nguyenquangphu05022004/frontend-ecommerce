@@ -17,11 +17,38 @@
               <th scope="col">Max price</th>
               <th scope="col">Sku list</th>
               <th scope="col">Update</th>
-
             </tr>
             </thead>
             <tbody>
+                <tr *ngFor="let spu of spuList?.list">
+                  <td scope="row">{{spu.name}}</td>
+                  <td scope="row">{{spu.productCategory?.name}}</td>
+                  <td scope="row">{{spu.productBrand?.name}}</td>
+                  <td scope="row">{{spu.description}}</td>
+                  <td scope="row">{{spu.minPrice}}</td>
+                  <td scope="row">{{spu.maxPrice}}</td>
+                  <td scope="row">
+                    <button type="button" class="btn btn-primary" data-toggle="modal"  attr.data-target=".bd-example-modal-lg-{{spu.id}}">Sku</button>
+                    <!--Modal skus-->
+                    <div class="modal fade bd-example-modal-lg-{{spu.id}}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel{{spu.id}}">Product spu: {{spu.name}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <app-sku [productSpu]="spu.id"></app-sku>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
+                  </td>
+                  <td scope="row"><button class="btn btn-primary">Update</button></td>
+                </tr>
             </tbody>
           </table>
         </div>
@@ -29,3 +56,4 @@
     </div>
   </div><!-- Table End -->
 </section>
+

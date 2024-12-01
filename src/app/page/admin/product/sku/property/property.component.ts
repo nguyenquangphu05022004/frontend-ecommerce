@@ -1,16 +1,16 @@
 import {Component, Input} from '@angular/core';
 
 @Component({
-  selector: 'app-sku',
-  templateUrl: './sku.component.html',
-  styleUrls: ['./sku.component.css']
+  selector: 'app-property',
+  templateUrl: './property.component.html',
+  styleUrls: ['./property.component.css']
 })
-export class SkuComponent {
+export class PropertyComponent {
   enableList: boolean = true;
   enableForm: boolean = false
 
   @Input()
-  productSpu?: number
+  productSku?: number
 
   enableFormF() {
     this.enableList = false

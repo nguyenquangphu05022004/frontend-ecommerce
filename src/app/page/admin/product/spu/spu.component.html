@@ -18,6 +18,7 @@
                 id="categoryId"
                 aria-label="Floating label select example"
                 name="categoryId"
+                [(ngModel)]="request.productCategoryId"
         >
           <option *ngFor="let cate of categories" [ngValue]="cate.id">{{cate.name}}</option>
         </select>
@@ -28,6 +29,7 @@
                 id="brandId"
                 aria-label="Floating label select example"
                 name="brandId"
+                [(ngModel)]="request.productBrandId"
         >
           <option *ngFor="let brand of brands" [ngValue]="brand.id">{{brand.name}}</option>
         </select>
@@ -61,7 +63,7 @@
       </div>
     </form>
     <div class="form-floating mb-3">
-      <button  class="btn btn-primary w-100">Thêm</button>
+      <button  class="btn btn-primary w-100" (click)="createSpu()">Thêm</button>
     </div>
   </div>
 </div>

@@ -1,6 +1,10 @@
 import {Component} from '@angular/core';
-import {AuthRequest} from "../../services/api/model/request/AuthRequest";
-import {AuthService} from "../../services/api/auth.service";
+import {AuthService} from "../../services/sys/auth/auth.service";
+
+interface Request {
+  username?: string
+  password?: string
+}
 
 @Component({
   selector: 'app-login',
@@ -9,7 +13,7 @@ import {AuthService} from "../../services/api/auth.service";
 })
 export class LoginComponent {
 
-    authenRequest: AuthRequest = {}
+    authenRequest: Request = {}
     messageResponse: any;
 
 
@@ -21,9 +25,12 @@ export class LoginComponent {
     this.authService.authenticate(this.authenRequest)
       .subscribe({
         next: response => {
-          if(response.status === 200) {
             localStorage.setItem("jwt", JSON.stringify(response.data))
-          }
+            window.location.href='/admin/dashboard'
+        },
+        error: err => {
+          alert("Password or username invalid")
+          console.error(err)
         }
       })
   }

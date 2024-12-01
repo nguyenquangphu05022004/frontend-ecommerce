@@ -1,0 +1,7 @@
+<div class="d-flex flex-column">
+  <a href="javascript:(0)" (click)="enableFormF()">Property form form</a>
+  <a href="javascript:(0)" (click)="enableListF()">Property list</a>
+</div>
+
+<app-sku-property-form *ngIf="enableForm" [productSku]="productSku"></app-sku-property-form>
+<app-sku-property-list *ngIf="enableList" [skuId]="productSku"></app-sku-property-list>
